@@ -18,7 +18,7 @@ public class CompanyService {
 	}
 	
 	public List<Company> listService() {
-		List<Company> companies = companyDAO.listCompanies();
+		List<Company> companies = companyDAO.list();
 		
 		return companies;
 	}

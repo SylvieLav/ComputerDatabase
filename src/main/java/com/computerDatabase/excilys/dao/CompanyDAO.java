@@ -23,7 +23,7 @@ public class CompanyDAO {
 		return INSTANCE;
 	}
 	
-	public List<Company> listCompanies() {
+	public List<Company> list() {
 		List<Company> companies = new ArrayList<Company>();
 		
 		try (PreparedStatement statement = dbConnection.connect().prepareStatement(LIST_COMPANIES);

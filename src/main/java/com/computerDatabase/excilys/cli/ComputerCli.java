@@ -39,7 +39,7 @@ public class ComputerCli {
 	
 	public void listCli(String sNumber) {
 		Logger logger = LoggerFactory.getLogger(ComputerCli.class);
-		List<Computer> computers = computerService.listService(Long.parseLong(sNumber));
+		List<Computer> computers = computerService.listService();
 		for (Computer computer : computers) {
 			logger.info(computer.getName());
 		}
@@ -88,7 +88,7 @@ public class ComputerCli {
 	}
 	
 	public void deleteCli(String id) {
-		computerService.deleteService(id);
+		computerService.deleteService(Long.parseLong(id));
 	}
 
 }

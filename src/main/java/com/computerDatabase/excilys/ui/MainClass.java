@@ -1,5 +1,9 @@
 package com.computerDatabase.excilys.ui;
 
+import java.time.DayOfWeek;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 import org.slf4j.*;
@@ -8,6 +12,8 @@ import com.computerDatabase.excilys.cli.CompanyCli;
 import com.computerDatabase.excilys.cli.ComputerCli;
 import com.computerDatabase.excilys.validator.ComputerValidator;
 
+import junit.framework.Test;
+
 public class MainClass {
 	private long id;
 	
@@ -15,11 +21,11 @@ public class MainClass {
 	private static CompanyCli companyCli = CompanyCli.getInstance();
 	private static ComputerValidator computerValidator = ComputerValidator.getInstance();
 	
-	public MainClass(int id) {
+	public MainClass(long id) {
 		this.id = id;
 	}
 	
-	public static void main(String[] args) {
+	public static final void main(String[] args) {
 		Logger logger = LoggerFactory.getLogger(MainClass.class);
 		Scanner input = new Scanner(System.in);
 		logger.info("Here you can read and modify the list of computers or their manufacturer companies.");

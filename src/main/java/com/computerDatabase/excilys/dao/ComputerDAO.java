@@ -109,9 +109,9 @@ public class ComputerDAO {
 		return computer;
 	}
 	
-	public String delete(String id) {	
+	public long delete(long id) {	
 		try (PreparedStatement statement = dbConnection.connect().prepareStatement(DELETE_COMPUTER)) {
-		    statement.setString(1, id);
+		    statement.setLong(1, id);
 		    statement.executeUpdate();
 		} catch (SQLException e) {
 		    e.printStackTrace();

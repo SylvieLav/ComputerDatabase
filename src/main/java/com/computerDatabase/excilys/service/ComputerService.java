@@ -22,7 +22,7 @@ public class ComputerService {
 		return computer;
 	}
 	
-	public List<Computer> listService(long number) {
+	public List<Computer> listService() {
 		List<Computer> computers = computerDAO.list();
 		
 		return computers;
@@ -40,7 +40,7 @@ public class ComputerService {
 		return computer;
 	}
 	
-	public String deleteService(String id) {
+	public long deleteService(long id) {
 		computerDAO.delete(id);
 		
 		return id;
