@@ -6,9 +6,9 @@ public class Page {
 	
 	public Page() {}
 	
-	public Computer[] createPage (List<Computer> computers, int number) {
+	public Computer[] createPage (List<Computer> computers, int number, int pageNumber) {
 		Computer[] computerArray = new Computer[number];
-		for (int i = 0; i<computerArray.length; i++) {
+		for (int i = number*(pageNumber-1); i<number*pageNumber; i++) {
 			computerArray[i] = computers.get(i);
 		}
 		

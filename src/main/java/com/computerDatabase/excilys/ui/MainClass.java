@@ -1,9 +1,5 @@
 package com.computerDatabase.excilys.ui;
 
-import java.time.DayOfWeek;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Scanner;
 
 import org.slf4j.*;
@@ -11,8 +7,6 @@ import org.slf4j.*;
 import com.computerDatabase.excilys.cli.CompanyCli;
 import com.computerDatabase.excilys.cli.ComputerCli;
 import com.computerDatabase.excilys.validator.ComputerValidator;
-
-import junit.framework.Test;
 
 public class MainClass {
 	private long id;
@@ -50,11 +44,23 @@ public class MainClass {
 				}
 			} else if (line.equalsIgnoreCase("List computers")) {
 				String number;
+				String page = "1";
 				do {
 					logger.info("Give the number of computers per page:");
 					number = input.nextLine();
 				} while (number.equals(""));
-				computerCli.listCli(number);
+				computerCli.listCli(number, page);
+				String curser;
+				do {
+					curser = input.nextLine();
+					if (curser.equalsIgnoreCase("previous")) {
+						page = Long.toString((Long.parseLong(page) - 1));
+						computerCli.listCli(number, page);
+					} else if (curser.equalsIgnoreCase("next")) {
+						page = Long.toString((Long.parseLong(page) + 1));
+						computerCli.listCli(number, page);
+					}
+				} while (curser.equalsIgnoreCase("previous") || curser.equalsIgnoreCase("next"));
 			} else if (line.contains("List a computer")) {
 				computerCli.listDetailsCli(line.split(" ")[3]);
 			} else if (line.contains("Update")) {

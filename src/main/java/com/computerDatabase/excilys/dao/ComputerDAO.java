@@ -57,7 +57,7 @@ public class ComputerDAO {
 		return computer;
 	}
 	
-	public List<Computer> list() {
+	public List<Computer> list(long number, long page) {
 		List<Computer> computers = new ArrayList<Computer>();
 		
 		try (PreparedStatement statement = dbConnection.connect().prepareStatement(LIST_COMPUTERS);

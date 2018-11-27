@@ -10,16 +10,17 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class Servlet
  */
-@WebServlet("/Servlet")
-public class Servlet extends HttpServlet {
+@WebServlet("/MainServlet")
+public class MainServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    public Servlet() {
+    public MainServlet() {
         super();
     }
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		this.getServletContext().getRequestDispatcher("/WEB-INF/connexion.jsp").forward(request, response);
+		System.out.println("MainServlet.doGet called !");
+		this.getServletContext().getRequestDispatcher("/views/dashboard.jsp").forward(request, response);
 	}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

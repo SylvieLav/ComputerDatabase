@@ -22,8 +22,8 @@ public class ComputerService {
 		return computer;
 	}
 	
-	public List<Computer> listService() {
-		List<Computer> computers = computerDAO.list();
+	public List<Computer> listService(long number, long page) {
+		List<Computer> computers = computerDAO.list(number, page);
 		
 		return computers;
 	}

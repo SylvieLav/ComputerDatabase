@@ -18,8 +18,8 @@ public class Company {
 	}
 	
 	public static class CompanyBuilder {
-		private final long	builderId;
-		private String		builderName;
+		private final	long	builderId;
+		private			String	builderName;
 		
 		public CompanyBuilder(long id) {
 			builderId = id;

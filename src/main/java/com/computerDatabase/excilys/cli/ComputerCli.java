@@ -9,9 +9,11 @@ import org.slf4j.LoggerFactory;
 
 import com.computerDatabase.excilys.model.Company;
 import com.computerDatabase.excilys.model.Computer;
+import com.computerDatabase.excilys.model.Page;
 import com.computerDatabase.excilys.service.ComputerService;
 
 public class ComputerCli {
+	private Page page;
 	private static ComputerService computerService = ComputerService.getInstance();
 	private static final ComputerCli INSTANCE = new ComputerCli();
 	
@@ -37,10 +39,14 @@ public class ComputerCli {
 		computerService.createService(computer);
 	}
 	
-	public void listCli(String sNumber) {
+	public void listCli(String sNumber, String sPage) {
 		Logger logger = LoggerFactory.getLogger(ComputerCli.class);
-		List<Computer> computers = computerService.listService();
-		for (Computer computer : computers) {
+		int number = Integer.parseInt(sNumber);
+		int pageNumber = Integer.parseInt(sPage);
+		List<Computer> computers = computerService.listService(number, pageNumber);
+		page = new Page();
+		Computer[] computerArray = page.createPage(computers, number, pageNumber);
+		for (Computer computer : computerArray) {
 			logger.info(computer.getName());
 		}
 	}
