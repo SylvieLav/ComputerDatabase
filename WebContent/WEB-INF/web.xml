@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns="http://java.sun.com/xml/ns/javaee" 
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" 
+	version="3.0">
+	
+	<jsp-config>
+		<jsp-property-group>
+			<url-pattern>*.jsp</url-pattern>
+			<include-prelude>/WEB-INF/taglibs.jsp</include-prelude>
+		</jsp-property-group>
+	</jsp-config>
+	
+	<servlet>
+		<servlet-name>MainServlet</servlet-name>
+		<servlet-class>com.computerDatabase.excilys.servlet.MainServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>MainServlet</servlet-name>
+		<url-pattern>/dashboard</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>CreateComputerServlet</servlet-name>
+		<servlet-class>com.computerDatabase.excilys.servlet.CreateComputerServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CreateComputerServlet</servlet-name>
+		<url-pattern>/addComputer</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>ListComputerServlet</servlet-name>
+		<servlet-class>com.computerDatabase.excilys.servlet.ListComputerServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ListComputerServlet</servlet-name>
+		<url-pattern>/listComputer</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>ListComputerDetailsServlet</servlet-name>
+		<servlet-class>com.computerDatabase.excilys.servlet.ListComputerDetailsServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ListComputerDetailsServlet</servlet-name>
+		<url-pattern>/listComputerDetails</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>UpdateComputerServlet</servlet-name>
+		<servlet-class>com.computerDatabase.excilys.servlet.UpdateComputerServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>UpdateComputerServlet</servlet-name>
+		<url-pattern>/editComputer</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>DeleteComputerServlet</servlet-name>
+		<servlet-class>com.computerDatabase.excilys.servlet.DeleteComputerServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DeleteComputerServlet</servlet-name>
+		<url-pattern>/deleteComputer</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>ListCompanyServlet</servlet-name>
+		<servlet-class>com.computerDatabase.excilys.servlet.ListCompanyServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ListCompanyServlet</servlet-name>
+		<url-pattern>/listCompany</url-pattern>
+	</servlet-mapping>
+</web-app>
