@@ -31,47 +31,11 @@
 	</servlet-mapping>
 	
 	<servlet>
-		<servlet-name>ListComputerServlet</servlet-name>
-		<servlet-class>com.computerDatabase.excilys.servlet.ListComputerServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>ListComputerServlet</servlet-name>
-		<url-pattern>/listComputer</url-pattern>
-	</servlet-mapping>
-	
-	<servlet>
-		<servlet-name>ListComputerDetailsServlet</servlet-name>
-		<servlet-class>com.computerDatabase.excilys.servlet.ListComputerDetailsServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>ListComputerDetailsServlet</servlet-name>
-		<url-pattern>/listComputerDetails</url-pattern>
-	</servlet-mapping>
-	
-	<servlet>
 		<servlet-name>UpdateComputerServlet</servlet-name>
 		<servlet-class>com.computerDatabase.excilys.servlet.UpdateComputerServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>UpdateComputerServlet</servlet-name>
 		<url-pattern>/editComputer</url-pattern>
-	</servlet-mapping>
-	
-	<servlet>
-		<servlet-name>DeleteComputerServlet</servlet-name>
-		<servlet-class>com.computerDatabase.excilys.servlet.DeleteComputerServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>DeleteComputerServlet</servlet-name>
-		<url-pattern>/deleteComputer</url-pattern>
-	</servlet-mapping>
-	
-	<servlet>
-		<servlet-name>ListCompanyServlet</servlet-name>
-		<servlet-class>com.computerDatabase.excilys.servlet.ListCompanyServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>ListCompanyServlet</servlet-name>
-		<url-pattern>/listCompany</url-pattern>
 	</servlet-mapping>
 </web-app>

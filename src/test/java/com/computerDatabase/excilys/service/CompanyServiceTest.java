@@ -1,13 +1,11 @@
 package com.computerDatabase.excilys.service;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
-import java.util.List;
+import java.util.*;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.InjectMocks;
-import org.mockito.MockitoAnnotations;
+import org.junit.*;
+import org.mockito.*;
 
 import com.computerDatabase.excilys.model.Company;
 
@@ -23,8 +21,8 @@ public class CompanyServiceTest {
 	@Test
 	public void testListService() {
 		List<Company> actual = companyService.listService();
+		List<Company> expected = new ArrayList<>();
 		
 		assertEquals("Test failed in companyService.listService() !", expected, actual);
 	}
-
 }

@@ -1,6 +1,6 @@
 package com.computerDatabase.excilys.service;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.*;
 
@@ -8,6 +8,7 @@ import org.junit.*;
 import org.mockito.*;
 
 import com.computerDatabase.excilys.model.Computer;
+import com.computerDatabase.excilys.model.Computer.ComputerBuilder;
 
 public class ComputerServiceTest {
 	@InjectMocks
@@ -21,13 +22,13 @@ public class ComputerServiceTest {
 	@Test
 	public void testCreateService(Computer computer) {
 		Computer actual = computerService.createService(computer);
-		Computer expected = new Computer();
+		Computer expected = new ComputerBuilder(computer.getName()).id(computer.getId()).build();
 		
 		assertEquals("Test failed in companyService.createService() !", expected, actual);
 	}
 
 	@Test
-	public void testListService() {
+	public void testListService(long number, long page) {
 		List<Computer> actual = computerService.listService();
 		List<Computer> expected = new ArrayList<Computer>();
 		
@@ -36,8 +37,8 @@ public class ComputerServiceTest {
 
 	@Test
 	public void testListDetailsService(long id) {
-		Computer actual = computerService.listDetailsService(id);
-		Computer expected = new Computer();
+		Optional<Computer> actual = computerService.listDetailsService(id);
+		Computer expected = null;
 		
 		assertEquals("Test failed in companyService.listDetailsService() !", expected, actual);
 	}
@@ -45,17 +46,16 @@ public class ComputerServiceTest {
 	@Test
 	public void testUpdateService(Computer computer) {
 		Computer actual = computerService.updateService(computer);
-		Computer expected = new Computer();
+		Computer expected = new ComputerBuilder(computer.getName()).id(computer.getId()).build();
 		
-		assertEquals("Test failed in companyService.updaterService() !", expected, actual);
+		assertEquals("Test failed in companyService.updateService() !", expected, actual);
 	}
 
 	@Test
 	public void testDeleteService(long id) {
 		long actual = computerService.deleteService(id);
-		long expected;
+		long expected = id;
 		
-		assertEquals("Test failed in companyService.updaterService() !", expected, actual);
+		assertEquals("Test failed in companyService.deleteService() !", expected, actual);
 	}
-
 }

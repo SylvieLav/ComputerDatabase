@@ -1,14 +1,13 @@
 package com.computerDatabase.excilys.dao;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.io.*;
+import java.sql.*;
 import java.util.Properties;
 
+import org.slf4j.*;
+
 public class DbConnection {
+	private static final Logger LOGGER = LoggerFactory.getLogger(DbConnection.class);
     private Connection connection;
     private Properties prop = new Properties();
     
@@ -22,11 +21,10 @@ public class DbConnection {
 	}
    
     private Properties getProperties() {
-    	
-        try (InputStream input = new FileInputStream("resources/config.properties")) {
+        try (InputStream input = this.getClass().getClassLoader().getResourceAsStream("config.properties")) {
         	prop.load(input);
         } catch (IOException e) {
-        	e.printStackTrace();
+        	LOGGER.error("Could not load the properties in DbConnection.getProperties() !");
         }
         
         return prop;
@@ -39,7 +37,7 @@ public class DbConnection {
                 Class.forName(prop.getProperty("DatabaseDriver"));
                 connection = DriverManager.getConnection(prop.getProperty("Url"), getProperties());
             } catch (ClassNotFoundException | SQLException e) {
-                e.printStackTrace();
+            	LOGGER.error("Could not instantiate the connection in DbConnection.connect() !");
             }
         }
         return connection;
@@ -51,7 +49,7 @@ public class DbConnection {
                 connection.close();
                 connection = null;
             } catch (SQLException e) {
-                e.printStackTrace();
+            	LOGGER.error("Could not close the connection in DbConnection.disconnect() !");
             }
         }
     }

@@ -4,16 +4,14 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.slf4j.*;
 
-import com.computerDatabase.excilys.model.Company;
-import com.computerDatabase.excilys.model.Computer;
-import com.computerDatabase.excilys.model.Page;
+import com.computerDatabase.excilys.model.*;
+//import com.computerDatabase.excilys.model.Page;
 import com.computerDatabase.excilys.service.ComputerService;
 
 public class ComputerCli {
-	private Page page;
+	//private Page page;
 	private static ComputerService computerService = ComputerService.getInstance();
 	private static final ComputerCli INSTANCE = new ComputerCli();
 	
@@ -41,12 +39,10 @@ public class ComputerCli {
 	
 	public void listCli(String sNumber, String sPage) {
 		Logger logger = LoggerFactory.getLogger(ComputerCli.class);
-		int number = Integer.parseInt(sNumber);
-		int pageNumber = Integer.parseInt(sPage);
+		long number = Long.parseLong(sNumber);
+		long pageNumber = Long.parseLong(sPage);
 		List<Computer> computers = computerService.listService(number, pageNumber);
-		page = new Page();
-		Computer[] computerArray = page.createPage(computers, number, pageNumber);
-		for (Computer computer : computerArray) {
+		for (Computer computer : computers) {
 			logger.info(computer.getName());
 		}
 	}
@@ -54,7 +50,7 @@ public class ComputerCli {
 	public void listDetailsCli(String id) {
 		Logger logger = LoggerFactory.getLogger(ComputerCli.class);
 		try {
-		Computer computer = computerService.listDetailsService(Long.parseLong(id));
+		Computer computer = computerService.listDetailsService(Long.parseLong(id)).get();
 		logger.info(id + "\n" + computer.getName() + "\n" + computer.getIntroduced() + "\n" + computer.getDiscontinued() + "\n" + computer.getCompany().getName());
 	
 		} catch (NumberFormatException e) {
@@ -66,7 +62,7 @@ public class ComputerCli {
 		Logger logger = LoggerFactory.getLogger(ComputerCli.class);
 		LocalDateTime introduced = null, discontinued = null;
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S");
-		Computer computerToUpdate = computerService.listDetailsService(Long.parseLong(id));
+		Computer computerToUpdate = computerService.listDetailsService(Long.parseLong(id)).get();
 		Company company = null;
 		
 		if (sIntroduced.equals("")) {

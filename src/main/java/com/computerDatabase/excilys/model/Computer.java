@@ -3,11 +3,11 @@ package com.computerDatabase.excilys.model;
 import java.time.LocalDateTime;
 
 public class Computer {
-	private final Company		company;
-	private final LocalDateTime	introduced;
-	private final LocalDateTime	discontinued;
-	private final long			id;
-	private final String		name;
+	private Company			company;
+	private LocalDateTime	introduced;
+	private LocalDateTime	discontinued;
+	private long			id;
+	private String			name;
 	
 	private Computer(ComputerBuilder builder) {
 		this.id = builder.builderId;
@@ -38,11 +38,11 @@ public class Computer {
 	}
 	
 	public static class ComputerBuilder {
-		private final String	builderName;
+		private String			builderName;
 		private long			builderId;
+		private Company			builderCompany;
 		private LocalDateTime	builderIntroduced;
 		private LocalDateTime	builderDiscontinued;
-		private Company			builderCompany;
 		
 		public ComputerBuilder(String name) {
 			builderName = name;
@@ -77,8 +77,5 @@ public class Computer {
 		public Computer build() {
 			return new Computer(this);
 		}
-		
 	}
-	
 }
-

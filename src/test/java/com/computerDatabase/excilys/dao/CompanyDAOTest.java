@@ -1,6 +1,6 @@
 package com.computerDatabase.excilys.dao;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.sql.*;
 import java.util.*;

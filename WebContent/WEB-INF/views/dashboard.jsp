@@ -20,27 +20,27 @@
 
     <section id="main">
         <div class="container">
-            <h1 id="homeTitle">
-            </h1>
+        	<h1 id="homeTitle">
+				<c:out value="${computersSize}" /> computers found.
+			</h1>
             <div id="actions" class="form-horizontal">
                 <div class="pull-left">
                     <form id="searchForm" action="#" method="GET" class="form-inline">
-
                         <input type="search" id="searchbox" name="search" class="form-control" placeholder="Search name" />
-                        <input type="submit" id="searchsubmit" value="Filter by name"
-                        class="btn btn-primary" />
+                        <input type="submit" id="searchsubmit" value="Filter by name" onclick="location.href='?search=" class="btn btn-primary" />
                     </form>
                 </div>
                 <div class="pull-right">
                     <a class="btn btn-success" id="addComputer" href="addComputer">Add Computer</a> 
-                    <a class="btn btn-default" id="editComputer" href="#" onclick="$.fn.toggleEditMode();">Edit</a>
+                    <a class="btn btn-default" id="editComputer" href="#" onclick="$.fn.toggleEditMode();">Delete</a>
                 </div>
             </div>
         </div>
 
         <form id="deleteForm" action="#" method="POST">
             <input type="hidden" name="selection" value="">
-        </form>
+                                    </form>
+
 
         <div class="container" style="margin-top: 10px;">
             <table class="table table-striped table-bordered">
@@ -52,7 +52,7 @@
                         <th class="editMode" style="width: 60px; height: 22px;">
                             <input type="checkbox" id="selectall" /> 
                             <span style="vertical-align: top;">
-                                 -  <a href="#" id="deleteSelected" onclick="$.fn.deleteSelected();">
+                                 -  <a href="" id="deleteSelected" onclick="$.fn.deleteSelected();">
                                         <i class="fa fa-trash-o fa-lg"></i>
                                     </a>
                             </span>
@@ -76,18 +76,21 @@
                 </thead>
                 <!-- Browse attribute computers -->
                 <tbody id="results">
-                    <tr>
+                	<c:forEach items="${computers}" var="item">
+                	<tr>
                         <td class="editMode">
-                            <input type="checkbox" name="cb" class="cb" value="0">
+                            <input type="checkbox" name="cb" class="cb" value="${item.id}">
                         </td>
                         <td>
-                            <a href="editComputer" onclick="">MacBook Pro</a>
+                            <a href="editComputer?computerId=${item.id}" onclick=""><c:out value="${item.name}"/></a>
                         </td>
-                        <td>2006-01-10</td>
-                        <td></td>
-                        <td>Apple Inc.</td>
+                        <td><c:out value="${item.introduced}"/></td>
+                        <td><c:out value="${item.discontinued}"/></td>
+                        <td><c:out value="${item.companyName}"/></td>
                     </tr>
+                	</c:forEach>
                 </tbody>
+
             </table>
         </div>
     </section>
@@ -96,32 +99,31 @@
         <div class="container text-center">
             <ul class="pagination">
                 <li>
-                    <a href="#" aria-label="Previous">
-                      <span aria-hidden="true">&laquo;</span>
-                  </a>
+                <a href="#" onclick="location.href='?pageNumber=" aria-label="Previous">
+                	<span aria-hidden="true">&laquo;</span>
+                </a>
               </li>
-              <li><a href="#">1</a></li>
-              <li><a href="#">2</a></li>
-              <li><a href="#">3</a></li>
-              <li><a href="#">4</a></li>
-              <li><a href="#">5</a></li>
+              <c:forEach items="${pageArray}" var="item">
+              	<li><a href="#" onclick="location.href='?number=${number}&pageNumber=${item}';">${item}</a></li>
+              </c:forEach>
               <li>
-                <a href="#" aria-label="Next">
+                <a href="#" onclick="location.href='?number=${number}&pageNumber=" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                 </a>
-            </li>
-        </ul>
-
-        <div class="btn-group btn-group-sm pull-right" role="group" >
-            <button type="button" class="btn btn-default">10</button>
-            <button type="button" class="btn btn-default">50</button>
-            <button type="button" class="btn btn-default">100</button>
+              </li>
+            </ul>
+            
+       	<div class="btn-group btn-group-sm pull-right" role="group">
+			<button type="button" onclick="location.href='?number=10&pageNumber=${pageNumber}';" class="btn btn-default">10</button>
+			<button type="button" onclick="location.href='?number=50&pageNumber=${pageNumber}';" class="btn btn-default">50</button>
+			<button type="button" onclick="location.href='?number=100&pageNumber=${pageNumber}';" class="btn btn-default">100</button>
+		</div>
         </div>
-
     </footer>
-<script src="js/jquery.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/dashboard.js"></script>
+    
+	<script src="js/jquery.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/dashboard.js"></script>
 
-</body>
+	</body>
 </html>

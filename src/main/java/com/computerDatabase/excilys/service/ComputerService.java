@@ -1,6 +1,6 @@
 package com.computerDatabase.excilys.service;
 
-import java.util.List;
+import java.util.*;
 
 import com.computerDatabase.excilys.dao.ComputerDAO;
 import com.computerDatabase.excilys.model.Computer;
@@ -22,14 +22,20 @@ public class ComputerService {
 		return computer;
 	}
 	
-	public List<Computer> listService(long number, long page) {
-		List<Computer> computers = computerDAO.list(number, page);
+	public List<Computer> listBySearchService(long number, long pageNumber, String filter) {
+		List<Computer> computers = computerDAO.listBySearch(number, pageNumber, filter);
 		
 		return computers;
 	}
 	
-	public Computer listDetailsService(long id) {
-		Computer computer = computerDAO.listDetails(id);
+	public List<Computer> listService(long number, long pageNumber) {
+		List<Computer> computers = computerDAO.list(number, pageNumber);
+		
+		return computers;
+	}
+	
+	public Optional<Computer> listDetailsService(long id) {
+		Optional<Computer> computer = computerDAO.listDetails(id);
 		
 		return computer;
 	}

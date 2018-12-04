@@ -1,8 +1,8 @@
 package com.computerDatabase.excilys.model;
 
 public class Company {
-	private final long		id;
-	private final String	name;
+	private long	id;
+	private String	name;
 	
 	private Company(CompanyBuilder builder) {
 		this.id = builder.builderId;
@@ -18,8 +18,8 @@ public class Company {
 	}
 	
 	public static class CompanyBuilder {
-		private final	long	builderId;
-		private			String	builderName;
+		private long	builderId;
+		private String	builderName;
 		
 		public CompanyBuilder(long id) {
 			builderId = id;

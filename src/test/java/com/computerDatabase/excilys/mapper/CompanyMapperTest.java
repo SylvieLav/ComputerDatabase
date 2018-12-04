@@ -1,19 +1,21 @@
 package com.computerDatabase.excilys.mapper;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.InjectMocks;
-import org.mockito.MockitoAnnotations;
+import org.junit.*;
+import org.mockito.*;
+import org.slf4j.*;
 
 import com.computerDatabase.excilys.model.Company;
 
 public class CompanyMapperTest {
+	private static final Logger LOGGER = LoggerFactory.getLogger(CompanyMapperTest.class);
+	
 	@InjectMocks
 	private CompanyMapper companyMapper = new CompanyMapper();
 	
@@ -24,8 +26,13 @@ public class CompanyMapperTest {
 
 	@Test
 	public void testSetCompanies(ResultSet rs) {
-		List<Company> actual = companyMapper.setCompanies(rs);
+		List<Company> actual = new ArrayList<>();
 		List<Company> expected = new ArrayList<>();
+		try {
+			actual = companyMapper.mapCompanies(rs);
+		} catch (SQLException e) {
+			LOGGER.error("Could not map companies for the test !");
+		}
 		
 		assertEquals("Test failed in setCompanies() !", expected, actual);
 	}

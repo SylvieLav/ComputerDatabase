@@ -1,19 +1,19 @@
 package com.computerDatabase.excilys.mapper;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
-import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.*;
+import java.util.*;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.InjectMocks;
-import org.mockito.MockitoAnnotations;
+import org.junit.*;
+import org.mockito.*;
+import org.slf4j.*;
 
 import com.computerDatabase.excilys.model.Computer;
 
 public class ComputerMapperTest {
+	private static final Logger LOGGER = LoggerFactory.getLogger(ComputerMapperTest.class);
+	
 	@InjectMocks
 	private ComputerMapper computerMapper = new ComputerMapper();
 	
@@ -24,8 +24,13 @@ public class ComputerMapperTest {
 
 	@Test
 	public void testSetComputers(ResultSet rs) {
-		List<Computer> actual = computerMapper.setComputers(rs);
+		List<Computer> actual = new ArrayList<>();
 		List<Computer> expected = new ArrayList<>();
+		try {
+			actual = computerMapper.mapComputers(rs);
+		} catch (SQLException e) {
+			LOGGER.error("Could not map computers for the test !");
+		}
 		
 		assertEquals("Test failed in setComputers() !", expected, actual);
 	}

@@ -1,9 +1,7 @@
 package com.computerDatabase.excilys.mapper;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.*;
+import java.util.*;
 
 import com.computerDatabase.excilys.model.Company;
 
@@ -12,17 +10,17 @@ public class CompanyMapper {
 	public CompanyMapper() {
 	}
 	
-	public List<Company> setCompanies(ResultSet rs) {
+	public List<Company> mapCompanies(ResultSet rs) throws SQLException {
 		List<Company> companies = new ArrayList<Company>();
-		try {
-			while (rs.next()) {
-				Company company = new Company.CompanyBuilder(rs.getLong("id")).name(rs.getString("name")).build();
-				companies.add(company);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+		while (rs.next()) {
+			Company company = new Company.CompanyBuilder(rs.getLong("id")).name(rs.getString("name")).build();
+			companies.add(company);
 		}
 		
 	return companies;
+	}
+	
+	public Company mapCompany(ResultSet rs) throws SQLException {
+		return new Company.CompanyBuilder(rs.getLong("id")).name(rs.getString("name")).build();
 	}
 }
