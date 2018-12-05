@@ -29,8 +29,8 @@ public class ComputerDAOTest {
 	}
 
 	@Test
-	public void testList(long number, long page) {
-		List<Computer> actual = computerDAO.list();
+	public void testList(long number, long pageNumber) {
+		List<Computer> actual = computerDAO.list(number, pageNumber);
 		List<Computer> expected = new ArrayList<>();
 		for (int i = 0; i<10; i++) {
 			Computer computer = new Computer.ComputerBuilder("computer n° " + i).build();

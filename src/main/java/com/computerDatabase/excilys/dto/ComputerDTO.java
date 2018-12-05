@@ -2,8 +2,6 @@ package com.computerDatabase.excilys.dto;
 
 import java.time.LocalDateTime;
 
-import com.computerDatabase.excilys.model.Company;
-
 public class ComputerDTO {
 	private LocalDateTime	introduced;
 	private LocalDateTime	discontinued;

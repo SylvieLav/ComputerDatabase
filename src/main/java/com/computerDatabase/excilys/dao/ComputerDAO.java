@@ -100,20 +100,19 @@ public class ComputerDAO {
 		return computers;
 	}
 	
-	public List<Computer> list(long number, long pageNumber) {
+	public List<Computer> list(long number, long page) {
 		List<Computer> computers = new ArrayList<Computer>();
 		String request;
-		if (number == -1 && pageNumber == -1) {
+		if (number == -1 && page == -1) {
 			request = LIST_COMPUTERS;
 		} else {
 			request = LIST_COMPUTERS + " ASC LIMIT ?, ?";
 		}
 		try (PreparedStatement statement = dbConnection.connect().prepareStatement(request)) {
 			if (request.contains("ASC LIMIT")) {
-				statement.setLong(1, (pageNumber-1)*number);
+				statement.setLong(1, (page-1)*number);
 				statement.setLong(2, number);
 			}
-			System.out.println("list.statement = " + statement);
 			ResultSet rs = statement.executeQuery();
 			computers = computerMapper.mapComputers(rs);
 		} catch (SQLException e) {

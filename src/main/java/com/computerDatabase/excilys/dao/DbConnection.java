@@ -6,10 +6,15 @@ import java.util.Properties;
 
 import org.slf4j.*;
 
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
+
 public class DbConnection {
 	private static final Logger LOGGER = LoggerFactory.getLogger(DbConnection.class);
+	private static HikariDataSource ds;
     private Connection connection;
     private Properties prop = new Properties();
+    
     
     private DbConnection() {
     }
@@ -27,6 +32,18 @@ public class DbConnection {
         	LOGGER.error("Could not load the properties in DbConnection.getProperties() !");
         }
         
+        HikariConfig config = new HikariConfig();
+        config.setDriverClassName(prop.getProperty("DatabaseDriver"));
+		config.setJdbcUrl(prop.getProperty("Url"));
+		config.setUsername(prop.getProperty("User"));
+		config.setPassword(prop.getProperty("Password"));
+		config.setMaximumPoolSize(Integer.parseInt(prop.getProperty("MaxPool")));
+		config.addDataSourceProperty("cachePrepStmts", prop.getProperty("CachePrepStmts"));
+		config.addDataSourceProperty("prepStmtCacheSize", prop.getProperty("PrepStmtCacheSize"));
+		config.addDataSourceProperty("prepStmtCacheSqlLimit", prop.getProperty("PrepStmtCacheSqlLimit"));
+		
+		ds = new HikariDataSource(config);
+        
         return prop;
     }
 
@@ -34,6 +51,7 @@ public class DbConnection {
     	getProperties();
         if (connection == null) {
             try {
+            	connection = ds.getConnection();
                 Class.forName(prop.getProperty("DatabaseDriver"));
                 connection = DriverManager.getConnection(prop.getProperty("Url"), getProperties());
             } catch (ClassNotFoundException | SQLException e) {

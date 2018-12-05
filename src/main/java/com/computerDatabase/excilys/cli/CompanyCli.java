@@ -22,4 +22,8 @@ public class CompanyCli {
 			logger.info(company.getName());
 		}
 	}
+	
+	public void deleteCli(String id) {
+		companyService.deleteService(Long.parseLong(id));
+	}
 }

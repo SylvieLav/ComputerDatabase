@@ -11,8 +11,10 @@ import com.computerDatabase.excilys.model.Company;
 
 public class CompanyDAO {
 	private static final Logger LOGGER = LoggerFactory.getLogger(CompanyDAO.class);
-	private static final String LIST_COMPANIES = "SELECT id, name FROM `company` ORDER BY name ASC";
-	private static final String LIST_COMPANY = "SELECT id, name FROM `company` WHERE id = ?";
+	private static final String DELETE_COMPANY					= "DELETE FROM `company` WHERE id = ?";
+	private static final String DELETE_COMPUTERS_FROM_COMPANY	= "DELETE FROM `computer` WHERE company_id = ?";
+	private static final String LIST_COMPANIES					= "SELECT id, name FROM `company` ORDER BY name ASC";
+	private static final String LIST_COMPANY					= "SELECT id, name FROM `company` WHERE id = ?";
 	private CompanyMapper companyMapper = new CompanyMapper();
 	private DbConnection dbConnection = DbConnection.getInstance();
 	
@@ -62,6 +64,22 @@ public class CompanyDAO {
 			dbConnection.disconnect();
 		}
 		return Optional.ofNullable(company);
-}
+	}
+	
+	public long delete(long id) {	
+		try (PreparedStatement statement = dbConnection.connect().prepareStatement(DELETE_COMPANY);
+				PreparedStatement statement2 = dbConnection.connect().prepareStatement(DELETE_COMPUTERS_FROM_COMPANY);) {
+		    statement.setLong(1, id);
+		    statement.executeUpdate();
+		    statement2.setLong(1, id);
+		    statement2.executeUpdate();
+		} catch (SQLException e) {
+			LOGGER.error("Could not execute the queries in CompanyDAO.delete() !");
+		} finally {
+			dbConnection.disconnect();
+		}
+		
+		return id;
+	}
 
 }

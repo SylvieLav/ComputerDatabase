@@ -29,4 +29,10 @@ public class CompanyService {
 		
 		return company;
 	}
+	
+	public long deleteService(long id) {
+		companyDAO.delete(id);
+		
+		return id;
+	}
 }

@@ -12,7 +12,7 @@ import com.computerDatabase.excilys.service.ComputerService;
 
 public class ComputerCli {
 	//private Page page;
-	private static ComputerService computerService = ComputerService.getInstance();
+	private ComputerService computerService = ComputerService.getInstance();
 	private static final ComputerCli INSTANCE = new ComputerCli();
 	
 	public static ComputerCli getInstance() {
@@ -40,8 +40,8 @@ public class ComputerCli {
 	public void listCli(String sNumber, String sPage) {
 		Logger logger = LoggerFactory.getLogger(ComputerCli.class);
 		long number = Long.parseLong(sNumber);
-		long pageNumber = Long.parseLong(sPage);
-		List<Computer> computers = computerService.listService(number, pageNumber);
+		long page = Long.parseLong(sPage);
+		List<Computer> computers = computerService.listService(number, page);
 		for (Computer computer : computers) {
 			logger.info(computer.getName());
 		}
