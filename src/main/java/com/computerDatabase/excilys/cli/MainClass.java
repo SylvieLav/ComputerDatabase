@@ -1,25 +1,23 @@
-package com.computerDatabase.excilys.ui;
+package com.computerDatabase.excilys.cli;
 
 import java.util.Scanner;
 
 import org.slf4j.*;
-
-import com.computerDatabase.excilys.cli.*;
-import com.computerDatabase.excilys.validator.ComputerValidator;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import com.computerDatabase.excilys.spring.Configuration;
 
 public class MainClass {
 	private static final Logger LOGGER = LoggerFactory.getLogger(MainClass.class);
-	private long id;
+
+	private static ApplicationContext applicationContext = new AnnotationConfigApplicationContext(Configuration.class);
+	private static CompanyCli companyCli = applicationContext.getBean("companyCli", CompanyCli.class);
+	private static ComputerCli computerCli = applicationContext.getBean("computerCli", ComputerCli.class);
 	
-	private static ComputerCli computerCli = ComputerCli.getInstance();
-	private static CompanyCli companyCli = CompanyCli.getInstance();
 	static int[][] game;
-	private static ComputerValidator computerValidator = ComputerValidator.getInstance();
-	
-	public MainClass(long id) {
-		this.id = id;
-	}
-	
+
+	public MainClass() {}
+
 	public static final void main(String[] args) {
 		Scanner input = new Scanner(System.in);
 		LOGGER.info("Here you can read and modify the list of computers or their manufacturer companies.");
@@ -37,7 +35,8 @@ public class MainClass {
 				LOGGER.info("Give the date when the computer was discontinued:");
 				String discontinued = input.nextLine();
 				LOGGER.info("Give the company ID:");
-				String companyID = input.nextLine();;
+				String companyID = input.nextLine();
+				;
 				computerCli.createCli(computerName, introduced, discontinued, companyID);
 			} else if (line.equalsIgnoreCase("List computers")) {
 				String number;

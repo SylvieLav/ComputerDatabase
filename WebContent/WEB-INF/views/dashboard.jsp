@@ -39,7 +39,7 @@
         <form id="deleteForm" action="#" method="POST">
             <input type="hidden" name="selection" value="">
         	<div class="container" style="margin-top: 10px;">
-            	<table id="table" class="table table-striped table-bordered" >
+            	<table class="table table-striped table-bordered" >
                 	<thead>
 						<tr>
                         	<!-- Variable declarations for passing labels as parameters -->
@@ -54,16 +54,16 @@
                             	</span>
                         	</th>
                         	<th>
-								Computer name
+								<a href="#" onclick="location.href='?sortBy=computerName&orderBy=${orderBy}'">Computer name</a>
 							</th>
                         	<th>
-                            	Introduced date
+                            	<a href="#" onclick="location.href='?sortBy=introducedDate&orderBy=${orderBy}'">Introduced date</a>
 							</th>
 							<th>
-                            	Discontinued date
+                            	<a href="#" onclick="location.href='?sortBy=discontinuedDate&orderBy=${orderBy}'">Discontinued date</a>
                         	</th>
                         	<th>
-								Company
+								<a href="#" onclick="location.href='?sortBy=companyName&orderBy=${orderBy}'">Company</a>
 							</th>
 
 						</tr>
@@ -80,7 +80,7 @@
                         		</td>
                         		<td><c:out value="${item.introduced}"/></td>
 								<td><c:out value="${item.discontinued}"/></td>
-                        		<td><c:out value="${item.companyId}"/></td>
+                        		<td><c:out value="${item.companyName}"/></td>
 							</tr>
 						</c:forEach>
 					</tbody>
@@ -119,8 +119,6 @@
 	<script src="js/jquery.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/dashboard.js"></script>
-    <script src="js/jquery.tablesorter.js"></script>
-    <script src="js/sort.js"></script>
 
 	</body>
 </html>

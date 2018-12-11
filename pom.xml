@@ -15,13 +15,17 @@
 		<maven.compiler.version>3.8.0</maven.compiler.version>
 		<maven.war.version>3.2.2</maven.war.version>
 		<com.h2database.version>1.4.197</com.h2database.version>
+		<dbunit.version>2.6.0</dbunit.version>
+		<hikari.version>2.6.1</hikari.version>
 		<javax.servlet.version>4.0.1</javax.servlet.version>
 		<!--javax.servlet.jstl.version>1.2</javax.servlet.jstl.version-->
+		<jquery.version>3.3.1</jquery.version>
 		<junit.version>4.11</junit.version>
 		<mysql.connector.version>8.0.13</mysql.connector.version>
 		<maven.checkstyle.version>3.0.0</maven.checkstyle.version>
 		<org.mockito.version>2.23.4</org.mockito.version>
 		<org.slf4j.version>1.6.4</org.slf4j.version>
+		<spring.version>5.1.3.RELEASE</spring.version>
   </properties>
   
   <build>
@@ -44,12 +48,29 @@
       </plugin>
   	</plugins>
   </build>
+  
+  <parent>
+  	<groupId>org.springframework.boot</groupId>
+  	<artifactId>spring-boot-starter-parent</artifactId>
+  	<version>1.5.3.RELEASE</version>
+  </parent>
 
   <dependencies>
   	<dependency>
       <groupId>com.h2database</groupId>
       <artifactId>h2</artifactId>
       <version>${com.h2database.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.dbunit</groupId>
+      <artifactId>dbunit</artifactId>
+      <version>${dbunit.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.zaxxer</groupId>
+      <artifactId>HikariCP</artifactId>
+      <version>3.2.0</version>
     </dependency>
     <dependency>
         <groupId>javax.servlet</groupId>
@@ -61,6 +82,11 @@
         <artifactId>jstl</artifactId>
         <version>${javax.servlet.jstl.version}</version>
     </dependency-->
+    <dependency>
+        <groupId>org.webjars</groupId>
+        <artifactId>jquery</artifactId>
+        <version>${jquery.version}</version>
+    </dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
@@ -84,9 +110,38 @@
       <version>${org.slf4j.version}</version>
     </dependency>
     <dependency>
-      <groupId>com.zaxxer</groupId>
-      <artifactId>HikariCP</artifactId>
-      <version>3.2.0</version>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-jdbc</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-core</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-webmvc</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-web</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-jdbc</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter</artifactId>
     </dependency>
   </dependencies>
   
@@ -95,10 +150,10 @@
       <plugin>
       	<groupId>org.apache.maven.plugins</groupId>
       	<artifactId>maven-checkstyle-plugin</artifactId>
-      		<version>${maven.checkstyle.version}</version>
-			<configuration>
-				<configLocation>src/main/resources/checkstyle/checkstyle.xml</configLocation>
-			</configuration>
+      	<version>${maven.checkstyle.version}</version>
+		<configuration>
+			<configLocation>src/main/resources/checkstyle/checkstyle.xml</configLocation>
+		</configuration>
       </plugin>
     </plugins>
   </reporting>

@@ -6,20 +6,20 @@ import java.util.*;
 import com.computerDatabase.excilys.model.Company;
 
 public class CompanyMapper {
-	
+
 	public CompanyMapper() {
 	}
-	
+
 	public List<Company> mapCompanies(ResultSet rs) throws SQLException {
 		List<Company> companies = new ArrayList<Company>();
 		while (rs.next()) {
 			Company company = new Company.CompanyBuilder(rs.getLong("id")).name(rs.getString("name")).build();
 			companies.add(company);
 		}
-		
-	return companies;
+
+		return companies;
 	}
-	
+
 	public Company mapCompany(ResultSet rs) throws SQLException {
 		return new Company.CompanyBuilder(rs.getLong("id")).name(rs.getString("name")).build();
 	}

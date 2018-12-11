@@ -29,7 +29,7 @@ public class ComputerServiceTest {
 
 	@Test
 	public void testListService(long number, long page) {
-		List<Computer> actual = computerService.listService();
+		List<Computer> actual = computerService.listService(number, page);
 		List<Computer> expected = new ArrayList<Computer>();
 		
 		assertEquals("Test failed in companyService.listService() !", expected, actual);

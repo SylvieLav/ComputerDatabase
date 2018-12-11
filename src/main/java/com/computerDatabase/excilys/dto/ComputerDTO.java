@@ -2,16 +2,21 @@ package com.computerDatabase.excilys.dto;
 
 import java.time.LocalDateTime;
 
+import com.computerDatabase.excilys.model.Computer;
+
 public class ComputerDTO {
-	private LocalDateTime	introduced;
-	private LocalDateTime	discontinued;
-	private long			id;
-	private String			companyName;
-	private String			name;
+	private LocalDateTime introduced;
+	private LocalDateTime discontinued;
+	private long		  id;
+	private String		  companyName;
+	private String		  name;
 	
-	public ComputerDTO(long id, String name) {
-		this.id = id;
-		this.name = name;
+	public ComputerDTO(Computer computer) {
+		this.id = computer.getId();
+		this.name = computer.getName();
+		this.introduced = computer.getIntroduced();
+		this.discontinued = computer.getDiscontinued();
+		this.companyName = computer.getCompany().getName();
 	}
 	
 	public long getId() {
