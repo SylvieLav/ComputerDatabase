@@ -40,7 +40,9 @@ public class MainServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		long totalNumber = computerService.listService(-1, -1, null, null).size();
+		
+		List<Computer> computers = computerService.listService(-1, -1, "name", "ASC");
+		long totalNumber = computers.size();
 		long number = totalNumber;
 		long page = 1;
 
@@ -48,6 +50,7 @@ public class MainServlet extends HttpServlet {
 		String sPage = request.getParameter("page");
 		String search = request.getParameter("search");
 		String sortBy = request.getParameter("sortBy");
+		String lang = request.getParameter("lang");
 		String orderBy = "ASC";
 		
 		request.setAttribute("computersSize", totalNumber);
@@ -97,29 +100,26 @@ public class MainServlet extends HttpServlet {
 		request.setAttribute("previousPage", previousPage);
 		request.setAttribute("nextPage", nextPage);
 		request.setAttribute("pageArray", pageArray);
-
-		List<Computer> computers;
+		request.setAttribute("lang", lang);
+		
 		if (sortBy != null) {
-			System.out.println("Cas sortBy != null !");
-			computers = computerService.listService(number, page, sortBy, request.getParameter("orderBy"));
+			if (number != totalNumber) {
+				computers = computerService.listService(number, page, sortBy, request.getParameter("orderBy"));
+			} else {
+				computers = computerService.listService(-1, -1, sortBy, request.getParameter("orderBy"));
+			}
 		} else if (search != null) {
-			System.out.println("Cas search != null !");
-			computers = computerService.listBySearchService(-1, -1, null, null, search);
+			computers = computerService.listBySearchService(-1, -1, "name", "ASC", search);
 			totalNumber = computers.size();
+		} else if (number != totalNumber) {
+			computers = computerService.listService(number, page, "name", "ASC");
 		} else {
-			System.out.println("Cas else !");
-			computers = computerService.listService(number, page, null, null);
+			computers = computerService.listService(-1, -1, "name", "ASC");
 		}
 
 		List<ComputerDTO> computersDTO = new ArrayList<>();
 		request.setAttribute("computers", computersDTO);
 		computers.stream().forEach(computer -> {
-			Company company = computer.getCompany();
-			if (company.getId() != 0) {
-				// Initialise le nom de la company du computer avec le nom de la company
-				// récupérée par l'id
-				// company.setName(companyService.getCompanyById(company.getId()).get().getName());
-			}
 			computersDTO.add(computerDTOMapper.map(computer));
 		});
 
@@ -130,7 +130,6 @@ public class MainServlet extends HttpServlet {
 			throws ServletException, IOException {
 		String[] cbArray = request.getParameterValues("cb");
 		for (String cb : cbArray) {
-			System.out.println("cb = " + cb);
 			computerService.deleteService(Long.parseLong(cb));
 		}
 	}

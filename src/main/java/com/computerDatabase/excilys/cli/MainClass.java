@@ -45,16 +45,16 @@ public class MainClass {
 					LOGGER.info("Give the number of computers per page:");
 					number = input.nextLine();
 				} while (number.equals(""));
-				computerCli.listCli(number, page);
+				computerCli.listCli(number, page, "name", "ASC");
 				String curser;
 				do {
 					curser = input.nextLine();
 					if (curser.equalsIgnoreCase("previous")) {
 						page = Long.toString((Long.parseLong(page) - 1));
-						computerCli.listCli(number, page);
+						computerCli.listCli(number, page, "name", "ASC");
 					} else if (curser.equalsIgnoreCase("next")) {
 						page = Long.toString((Long.parseLong(page) + 1));
-						computerCli.listCli(number, page);
+						computerCli.listCli(number, page, "name", "ASC");
 					}
 				} while (curser.equalsIgnoreCase("previous") || curser.equalsIgnoreCase("next"));
 			} else if (line.contains("List a computer")) {

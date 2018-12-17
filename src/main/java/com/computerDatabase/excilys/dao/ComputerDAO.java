@@ -5,6 +5,7 @@ import java.util.*;
 
 import org.slf4j.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.*;
 import org.springframework.stereotype.Component;
 
 import com.computerDatabase.excilys.dto.ComputerDTO;
@@ -16,27 +17,32 @@ public class ComputerDAO {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ComputerDAO.class);
 	private static final String DELETE_COMPUTER = "DELETE FROM `computer` WHERE id = ?";
 	private static final String INSERT_COMPUTER = "INSERT INTO computer(name, introduced, discontinued, company_id) VALUES (?, ?, ?, ?)";
-	private static final String LIST_COMPUTERS = "SELECT name, introduced, discontinued, id, company_id FROM computer ORDER BY name";
-	// private static final String LIST_COMPUTERS = "SELECT computer.name,
-	// introduced, discontinued, id, company.name FROM computer INNER JOIN company
-	// ON computer.company_id = company.id ORDER BY name";
+	private static final String LIST_COMPUTERS = "SELECT computer.name, introduced, discontinued, company_id, company.id, company.name FROM computer LEFT JOIN company ON computer.company_id = company.id ORDER BY ";
 	private static final String LIST_COMPUTER_DETAILS = "SELECT company_id, introduced, discontinued, id, name FROM `computer` where id = ?";
-	private static final String SEARCH_COMPUTERS = "SELECT company_id, introduced, discontinued, id, name FROM computer WHERE name LIKE ? ORDER BY name";
+	private static final String SEARCH_COMPUTERS = "SELECT company_id, introduced, discontinued, id, name FROM computer WHERE name LIKE ? ORDER BY ";
 	private static final String UPDATE_COMPUTER = "UPDATE computer SET name = ? , introduced = ?, discontinued = ?, company_id = ? WHERE id = ?";
-
+	
 	private ComputerMapper computerMapper = new ComputerMapper();
+	private JdbcTemplate jdbcTemplate = new JdbcTemplate(DbConnection.getDataSource());
 	
 	@Autowired
 	private DbConnection dbConnection;
 
 	private ComputerDAO() {
 	}
+	
+	private RowMapper<Computer> rowMapper = new RowMapper<Computer>() {
+		public Computer mapRow(ResultSet rs, int rowNum) throws SQLException {
+			return computerMapper.mapComputer(rs);
+		}
+	};
+
 
 	public ComputerDTO createDTO(Computer computer) {
 		ComputerDTO computerDTO = new ComputerDTO(computer);
 
 		computerDTO.setId(computer.getId());
-		computerDTO.setName(computer.getName());
+		computerDTO.setName(computer.getComputerName());
 		computerDTO.setCompanyName(computer.getCompany().getName());
 		computerDTO.setIntroduced(computer.getIntroduced());
 		computerDTO.setDiscontinued(computer.getDiscontinued());
@@ -51,8 +57,7 @@ public class ComputerDAO {
 	}
 
 	public Computer create(Computer computer) {
-		try (PreparedStatement statement = dbConnection.connect().prepareStatement(INSERT_COMPUTER)) {
-			statement.setString(1, computer.getName());
+			/*statement.setString(1, computer.getName());
 			String introduced = null;
 			if (computer.getIntroduced() != null) {
 				introduced = computer.getIntroduced().toString();
@@ -63,113 +68,80 @@ public class ComputerDAO {
 				discontinued = computer.getDiscontinued().toString();
 			}
 			statement.setString(3, discontinued);
-			long companyId = computer.getCompany().getId();
-			statement.setLong(4, companyId);
-			statement.executeUpdate();
-		} catch (SQLException e) {
-			LOGGER.error("Could not execute the query in ComputerDAO.create() !");
-		} finally {
-			dbConnection.disconnect();
-		}
+			
+			statement.setLong(4, computer.getCompany().getId());*/
+			jdbcTemplate.update(INSERT_COMPUTER, new Object[]{computer.getComputerName(), computer.getIntroduced(), computer.getDiscontinued(), computer.getCompany().getId()});
 		
 		return computer;
 	}
 
 	public List<Computer> list(long number, long page, String sortElement, String order) {
+		LOGGER.info("number = " + number + ", page = " + page + ", sortElement = " + sortElement + ", order = " + order);
 		List<Computer> computers = new ArrayList<Computer>();
-		String request;
-		if (number == -1 && page == -1) {
-			request = LIST_COMPUTERS;
-		} else {
-			request = LIST_COMPUTERS + " ASC LIMIT ?, ?";
+		String request = LIST_COMPUTERS;
+		if (sortElement.contains("companyName")) {
+			sortElement = "company.name";
+		} else if (sortElement.contains("name")) {
+			sortElement = "computer.name";
 		}
-		try (PreparedStatement statement = dbConnection.connect().prepareStatement(request)) {
-			if (request.contains("ASC LIMIT")) {
-				statement.setLong(1, (page - 1) * number);
-				statement.setLong(2, number);
-			}
-			ResultSet rs = statement.executeQuery();
-			computers = computerMapper.mapComputers(rs);
-		} catch (SQLException e) {
-			LOGGER.error("Could not execute the query in ComputerDAO.list() !");
-		} finally {
-			dbConnection.disconnect();
+		LOGGER.info("sortElement = " + sortElement);
+
+		request = request + sortElement + " " + order;
+		if (number != -1 && page != -1) {
+			request = request + " LIMIT " + (page - 1) * number + ", " + number;
 		}
+		LOGGER.info("request = " + request);
+		
+		computers = jdbcTemplate.query(request, rowMapper);
 		
 		return computers;
 	}
 	
-	public List<Computer> listBySearch(long number, long pageNumber, String sortElement, String order, String filter) {
+	public List<Computer> listBySearch(long number, long page, String sortElement, String order, String filter) {
+		LOGGER.info("listBySearch called !");
 		List<Computer> computers = new ArrayList<Computer>();
-		final String request;
-		if (number == -1 && pageNumber == -1) {
-			request = SEARCH_COMPUTERS;
-		} else {
-			request = SEARCH_COMPUTERS + " ASC LIMIT ?, ?";
+		String request = SEARCH_COMPUTERS;
+		if (order.contains("name")) {
+			order = "computer.name";
+		} else if (order.contains("company")) {
+			order = "company.name";
 		}
+		LOGGER.info("order = " + order);
+		
+		request = request + sortElement + " " + order;
+		if (number != -1 && page != -1) {
+			request = request + " LIMIT " + (page - 1) * number + ", " + number;
+		}
+		LOGGER.info("request = " + request);
 
-		try (PreparedStatement statement = dbConnection.connect().prepareStatement(request)) {
-			statement.setString(1, "%" + filter + "%");
-			if (request.contains("ASC LIMIT")) {
-				statement.setLong(2, (pageNumber - 1) * number);
-				statement.setLong(3, number);
-			}
-			ResultSet rs = statement.executeQuery();
-			computers = computerMapper.mapComputers(rs);
-		} catch (SQLException e) {
-			LOGGER.error("Could not execute the query in ComputerDAO.listBySearch() !");
-		} finally {
-			dbConnection.disconnect();
-		}
+		computers = jdbcTemplate.query(request, rowMapper);
 		
 		return computers;
 	}
 
 	public Optional<Computer> listDetails(long id) {
+		LOGGER.info("listDetails called !");
 		Optional<Computer> computer = null;
-
-		try (PreparedStatement statement = dbConnection.connect().prepareStatement(LIST_COMPUTER_DETAILS)) {
-			statement.setLong(1, id);
-			ResultSet rs = statement.executeQuery();
-
-			computer = Optional.ofNullable(computerMapper.mapComputers(rs).get(0));
-		} catch (IndexOutOfBoundsException e) {
-			LOGGER.error("No computer was found for the id " + id);
-		} catch (SQLException e) {
-			LOGGER.error("Could not execute the query in ComputerDAO.listDetails() !");
-		} finally {
-			dbConnection.disconnect();
-		}
+		
+		computer = Optional.ofNullable(jdbcTemplate.query(LIST_COMPUTER_DETAILS, new Object[]{id}, rowMapper).get(0));dbConnection.disconnect();
 
 		return computer;
 	}
 
 	public Computer update(Computer computer) {
-		try (PreparedStatement statement = dbConnection.connect().prepareStatement(UPDATE_COMPUTER)) {
-			statement.setString(1, computer.getName());
-			statement.setString(2, computer.getIntroduced().toString());
-			statement.setString(3, computer.getDiscontinued().toString());
-			statement.setLong(4, computer.getCompany().getId());
-			statement.setLong(5, computer.getId());
-			statement.executeUpdate();
-		} catch (SQLException e) {
-			LOGGER.error("Could not execute the query in ComputerDAO.update() !");
-		} finally {
-			dbConnection.disconnect();
-		}
+		/*statement.setString(1, computer.getName());
+		statement.setString(2, computer.getIntroduced().toString());
+		statement.setString(3, computer.getDiscontinued().toString());
+		statement.setLong(4, computer.getCompany().getId());
+		statement.setLong(5, computer.getId());
+		statement.executeUpdate();*/
+		jdbcTemplate.update(UPDATE_COMPUTER, new Object[]{computer.getComputerName(), computer.getIntroduced(), computer.getDiscontinued(), computer.getCompany().getId(), computer.getId()});
 
 		return computer;
 	}
 
 	public long delete(long id) {
-		try (PreparedStatement statement = dbConnection.connect().prepareStatement(DELETE_COMPUTER)) {
-			statement.setLong(1, id);
-			statement.executeUpdate();
-		} catch (SQLException e) {
-			LOGGER.error("Could not execute the query in ComputerDAO.delete() !");
-		} finally {
-			dbConnection.disconnect();
-		}
+		jdbcTemplate.update(DELETE_COMPUTER, id);
 
 		return id;
 	}

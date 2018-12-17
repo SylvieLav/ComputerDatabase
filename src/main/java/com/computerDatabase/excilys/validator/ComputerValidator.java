@@ -33,7 +33,7 @@ public class ComputerValidator {
 
 	public boolean validateAll(Computer computer) {
 
-		if (validateName(computer.getName()) == false
+		if (validateName(computer.getComputerName()) == false
 				|| validateComputerDate(computer.getIntroduced(), computer.getDiscontinued()) == false) {
 			return false;
 		}

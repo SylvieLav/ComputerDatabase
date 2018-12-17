@@ -18,7 +18,7 @@
 		<dbunit.version>2.6.0</dbunit.version>
 		<hikari.version>2.6.1</hikari.version>
 		<javax.servlet.version>4.0.1</javax.servlet.version>
-		<!--javax.servlet.jstl.version>1.2</javax.servlet.jstl.version-->
+		<javax.servlet.jstl.version>1.2</javax.servlet.jstl.version>
 		<jquery.version>3.3.1</jquery.version>
 		<junit.version>4.11</junit.version>
 		<mysql.connector.version>8.0.13</mysql.connector.version>
@@ -77,11 +77,11 @@
         <artifactId>javax.servlet-api</artifactId>
         <version>${javax.servlet.version}</version>
     </dependency>
-    <!--dependency>
+    <dependency>
         <groupId>javax.servlet</groupId>
         <artifactId>jstl</artifactId>
         <version>${javax.servlet.jstl.version}</version>
-    </dependency-->
+    </dependency>
     <dependency>
         <groupId>org.webjars</groupId>
         <artifactId>jquery</artifactId>
@@ -112,11 +112,6 @@
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-jdbc</artifactId>
-      <version>${spring.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-core</artifactId>
       <version>${spring.version}</version>
     </dependency>
     <dependency>

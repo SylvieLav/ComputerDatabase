@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<fmt:setLocale value="${lang}"/>
+<fmt:setBundle basename="com.computerDatabase.excilys.i18n.translate" />
+<html lang="${lang}">
 	<head>
 		<title>Computer Database</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,18 +23,18 @@
     <section id="main">
     	<div class="container">
 			<h1 id="homeTitle">
-				<c:out value="${computersSize}" /> computers found.
+				<c:out value="${computersSize}" /> <fmt:message key="label.searchNumber" />
 			</h1>
 			<div id="actions" class="form-horizontal">
 				<div class="pull-left">
 					<form id="searchForm" action="#" method="GET" class="form-inline">
-                    	<input type="search" id="searchbox" name="search" class="form-control" placeholder="Search name" />
-                        <input type="submit" id="searchsubmit" value="Filter by name" onclick="location.href='?search=" class="btn btn-primary" />
+                    	<input type="search" id="searchbox" name="search" class="form-control" placeholder="<fmt:message key="label.searchInput" />" />
+                        <input type="submit" id="searchsubmit" value="<fmt:message key="label.searchFilter" />" onclick="location.href='?search=" class="btn btn-primary" />
                     </form>
                 </div>
                 <div class="pull-right">
-                    <a class="btn btn-success" id="addComputer" href="addComputer">Add Computer</a> 
-                    <a class="btn btn-default" id="editComputer" href="#" onclick="$.fn.toggleEditMode();">Delete</a>
+                    <a class="btn btn-success" id="addComputer" href="addComputer"><fmt:message key="label.addComputer" /></a>
+                    <a class="btn btn-default" id="editComputer" href="#" onclick="$.fn.toggleEditMode();"><fmt:message key="label.deleteComputer" /></a>
                 </div>
             </div>
         </div>
@@ -54,16 +57,16 @@
                             	</span>
                         	</th>
                         	<th>
-								<a href="#" onclick="location.href='?sortBy=computerName&orderBy=${orderBy}'">Computer name</a>
+								<a href="#" onclick="location.href='?sortBy=name&orderBy=${orderBy}'"><fmt:message key="label.computerName" /></a>
 							</th>
                         	<th>
-                            	<a href="#" onclick="location.href='?sortBy=introducedDate&orderBy=${orderBy}'">Introduced date</a>
+                            	<a href="#" onclick="location.href='?sortBy=introduced&orderBy=${orderBy}'"><fmt:message key="label.introducedDate" /></a>
 							</th>
 							<th>
-                            	<a href="#" onclick="location.href='?sortBy=discontinuedDate&orderBy=${orderBy}'">Discontinued date</a>
+                            	<a href="#" onclick="location.href='?sortBy=discontinued&orderBy=${orderBy}'"><fmt:message key="label.discontinuedDate" /></a>
                         	</th>
                         	<th>
-								<a href="#" onclick="location.href='?sortBy=companyName&orderBy=${orderBy}'">Company</a>
+								<a href="#" onclick="location.href='?sortBy=companyName&orderBy=${orderBy}'"><fmt:message key="label.company" /></a>
 							</th>
 
 						</tr>
@@ -93,24 +96,28 @@
         <div class="container text-center">
             <ul class="pagination">
                 <li>
-                <a href="#" onclick="location.href='?number=${number}&pageNumber=${previousPage}'" aria-label="Previous">
+                <a href="#" onclick="location.href='?number=${number}&page=${previousPage}'" aria-label="Previous">
                 	<span aria-hidden="true">&laquo;</span>
                 </a>
               </li>
               <c:forEach items="${pageArray}" var="item">
-              	<li><a href="#" onclick="location.href='?number=${number}&pageNumber=${item}';">${item}</a></li>
+              	<li><a href="#" onclick="location.href='?number=${number}&page=${item}';">${item}</a></li>
               </c:forEach>
               <li>
-                <a href="#" onclick="location.href='?number=${number}&pageNumber=${nextPage}'" aria-label="Next">
+                <a href="#" onclick="location.href='?number=${number}&page=${nextPage}'" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                 </a>
               </li>
             </ul>
             
        	<div class="btn-group btn-group-sm pull-right" role="group">
-			<button type="button" onclick="location.href='?number=10&pageNumber=1';" class="btn btn-default">10</button>
-			<button type="button" onclick="location.href='?number=50&pageNumber=1';" class="btn btn-default">50</button>
-			<button type="button" onclick="location.href='?number=100&pageNumber=1';" class="btn btn-default">100</button>
+			<button type="button" onclick="location.href='?number=10&page=1';" class="btn btn-default">10</button>
+			<button type="button" onclick="location.href='?number=50&page=1';" class="btn btn-default">50</button>
+			<button type="button" onclick="location.href='?number=100&page=1';" class="btn btn-default">100</button>
+		</div>
+		<div class="btn-group btn-group-sm pull-right" role="group">
+			<button type="button" onclick="location.href='?number=${number}&page=${pageNumber}&lang=EN';" class="btn btn-default">EN</button>
+			<button type="button" onclick="location.href='?number=${number}&page=${pageNumber}&lang=FR';" class="btn btn-default">FR</button>
 		</div>
         </div>
     </footer>

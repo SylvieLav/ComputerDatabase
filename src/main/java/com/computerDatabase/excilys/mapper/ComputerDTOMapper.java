@@ -16,7 +16,7 @@ public class ComputerDTOMapper {
 		computerDTO.setId(computer.getId());
 		computerDTO.setIntroduced(computer.getIntroduced());
 		computerDTO.setDiscontinued(computer.getDiscontinued());
-		computerDTO.setName(computer.getName());
+		computerDTO.setName(computer.getComputerName());
 		computerDTO.setCompanyName(computer.getCompany().getName());
 
 		return computerDTO;

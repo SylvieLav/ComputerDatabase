@@ -34,12 +34,12 @@ public class ComputerCli {
 		computerService.createService(computer);
 	}
 
-	public void listCli(String sNumber, String sPage) {
+	public void listCli(String sNumber, String sPage, String sortElement, String order) {
 		long number = Long.parseLong(sNumber);
 		long page = Long.parseLong(sPage);
-		List<Computer> computers = computerService.listService(number, page);
+		List<Computer> computers = computerService.listService(number, page, sortElement, order);
 		for (Computer computer : computers) {
-			LOGGER.info(computer.getName());
+			LOGGER.info(computer.getComputerName());
 		}
 	}
 

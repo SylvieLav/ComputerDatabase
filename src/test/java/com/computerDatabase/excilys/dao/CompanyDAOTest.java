@@ -13,7 +13,7 @@ import com.computerDatabase.excilys.model.Company;
 
 public class CompanyDAOTest {
 	@Mock
-	private DbConnection dbConnection;
+	private DbConnection22 dbConnection;
 	@Mock
 	private Connection connection;
 	@Mock
