@@ -21,7 +21,7 @@ public class Computer {
 		return id;
 	}
 
-	public String getComputerName() {
+	public String getName() {
 		return name;
 	}
 

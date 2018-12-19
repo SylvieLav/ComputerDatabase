@@ -11,7 +11,7 @@ import com.computerDatabase.excilys.model.Company;
 
 public class CompanyServiceTest {
 	@InjectMocks
-	private CompanyService companyService = CompanyService.getInstance();
+	private CompanyService companyService;
 	
 	@Before
 	public void setUp() {

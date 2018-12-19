@@ -39,7 +39,7 @@ public class ComputerCli {
 		long page = Long.parseLong(sPage);
 		List<Computer> computers = computerService.listService(number, page, sortElement, order);
 		for (Computer computer : computers) {
-			LOGGER.info(computer.getComputerName());
+			LOGGER.info(computer.getName());
 		}
 	}
 

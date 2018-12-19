@@ -1,21 +1,21 @@
 package com.computerDatabase.excilys.servlet;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.slf4j.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
-import com.computerDatabase.excilys.model.Computer;
-import com.computerDatabase.excilys.service.ComputerService;
-import com.computerDatabase.excilys.spring.Configuration;
+import com.computerDatabase.excilys.dto.ComputerDTO;
+import com.computerDatabase.excilys.mapper.ComputerDTOMapper;
+import com.computerDatabase.excilys.model.*;
+import com.computerDatabase.excilys.service.*;
 
 /**
  * Servlet implementation class Servlet
@@ -25,8 +25,12 @@ public class UpdateComputerServlet extends HttpServlet {
 	private static final Logger LOGGER = LoggerFactory.getLogger(UpdateComputerServlet.class);
 	private static final long serialVersionUID = -9075919656212484604L;
 	
-	private static ApplicationContext applicationContext = new AnnotationConfigApplicationContext(Configuration.class);
-	private static ComputerService computerService = applicationContext.getBean("computerService", ComputerService.class);
+	@Autowired
+	private CompanyService companyService;
+	@Autowired
+	private ComputerService computerService;
+	@Autowired
+	private ComputerDTOMapper computerDTOMapper;
 
 	public UpdateComputerServlet() {
 		super();
@@ -41,13 +45,22 @@ public class UpdateComputerServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		try {
-			long id = Long.parseLong(request.getQueryString().split("=")[1]);
-			Computer computer = computerService.listDetailsService(id).get();
-
-			request.setAttribute("computer", computer);
+			long id = Long.parseLong(request.getParameter("computerId"));
+			LOGGER.info("id = " + id);
+			Computer computer = null;
+			computer = computerService.listDetailsService(id).get();
+			LOGGER.info("computer.get().getName() = " + computer.getName());
+			ComputerDTO computerDTO = null;
+			computerDTO = computerDTOMapper.map(computer);
+			
+			request.setAttribute("computer", computerDTO);
+			request.setAttribute("lang", request.getParameter("lang"));
 		} catch (NumberFormatException e) {
-			LOGGER.error("The computer ID is not a valid number !");
+			LOGGER.error("The computer ID " + request.getParameter("computerId") + " is not a valid number !");
 		}
+		
+		List<Company> companies = companyService.listService();
+		request.setAttribute("companies", companies);
 
 		this.getServletContext().getRequestDispatcher("/WEB-INF/views/editComputer.jsp").forward(request, response);
 	}

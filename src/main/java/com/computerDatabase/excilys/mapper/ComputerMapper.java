@@ -24,7 +24,7 @@ public class ComputerMapper {
 		if (rs.getString("discontinued") != null) {
 			discontinued = LocalDateTime.parse(rs.getString("discontinued"), fmt);
 		}
-		computer = new Computer.ComputerBuilder(rs.getString("computer.name")).id(rs.getLong("id")).introduced(introduced).discontinued(discontinued)
+		computer = new Computer.ComputerBuilder(rs.getString("computer.name")).id(rs.getLong("computer.id")).introduced(introduced).discontinued(discontinued)
 				.company(company).build();
 
 		return computer;

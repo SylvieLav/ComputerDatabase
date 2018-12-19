@@ -4,7 +4,6 @@ import java.sql.*;
 import java.util.*;
 
 import org.slf4j.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.*;
 import org.springframework.stereotype.Component;
 
@@ -17,16 +16,13 @@ public class ComputerDAO {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ComputerDAO.class);
 	private static final String DELETE_COMPUTER = "DELETE FROM `computer` WHERE id = ?";
 	private static final String INSERT_COMPUTER = "INSERT INTO computer(name, introduced, discontinued, company_id) VALUES (?, ?, ?, ?)";
-	private static final String LIST_COMPUTERS = "SELECT computer.name, introduced, discontinued, company_id, company.id, company.name FROM computer LEFT JOIN company ON computer.company_id = company.id ORDER BY ";
-	private static final String LIST_COMPUTER_DETAILS = "SELECT company_id, introduced, discontinued, id, name FROM `computer` where id = ?";
+	private static final String LIST_COMPUTERS = "SELECT computer.id, computer.name, introduced, discontinued, company_id, company.id, company.name FROM computer LEFT JOIN company ON computer.company_id = company.id ORDER BY ";
+	private static final String LIST_COMPUTER_DETAILS = "SELECT computer.id, computer.name, introduced, discontinued, company_id, company.id, company.name FROM `computer` LEFT JOIN company ON computer.company_id = company.id WHERE computer.id = ";
 	private static final String SEARCH_COMPUTERS = "SELECT company_id, introduced, discontinued, id, name FROM computer WHERE name LIKE ? ORDER BY ";
 	private static final String UPDATE_COMPUTER = "UPDATE computer SET name = ? , introduced = ?, discontinued = ?, company_id = ? WHERE id = ?";
 	
 	private ComputerMapper computerMapper = new ComputerMapper();
 	private JdbcTemplate jdbcTemplate = new JdbcTemplate(DbConnection.getDataSource());
-	
-	@Autowired
-	private DbConnection dbConnection;
 
 	private ComputerDAO() {
 	}
@@ -37,12 +33,11 @@ public class ComputerDAO {
 		}
 	};
 
-
 	public ComputerDTO createDTO(Computer computer) {
 		ComputerDTO computerDTO = new ComputerDTO(computer);
 
 		computerDTO.setId(computer.getId());
-		computerDTO.setName(computer.getComputerName());
+		computerDTO.setName(computer.getName());
 		computerDTO.setCompanyName(computer.getCompany().getName());
 		computerDTO.setIntroduced(computer.getIntroduced());
 		computerDTO.setDiscontinued(computer.getDiscontinued());
@@ -70,13 +65,13 @@ public class ComputerDAO {
 			statement.setString(3, discontinued);
 			
 			statement.setLong(4, computer.getCompany().getId());*/
-			jdbcTemplate.update(INSERT_COMPUTER, new Object[]{computer.getComputerName(), computer.getIntroduced(), computer.getDiscontinued(), computer.getCompany().getId()});
+			jdbcTemplate.update(INSERT_COMPUTER, new Object[]{computer.getName(), computer.getIntroduced(), computer.getDiscontinued(), computer.getCompany().getId()});
 		
 		return computer;
 	}
 
 	public List<Computer> list(long number, long page, String sortElement, String order) {
-		LOGGER.info("number = " + number + ", page = " + page + ", sortElement = " + sortElement + ", order = " + order);
+		LOGGER.info("list called !");
 		List<Computer> computers = new ArrayList<Computer>();
 		String request = LIST_COMPUTERS;
 		if (sortElement.contains("companyName")) {
@@ -84,13 +79,11 @@ public class ComputerDAO {
 		} else if (sortElement.contains("name")) {
 			sortElement = "computer.name";
 		}
-		LOGGER.info("sortElement = " + sortElement);
 
 		request = request + sortElement + " " + order;
 		if (number != -1 && page != -1) {
 			request = request + " LIMIT " + (page - 1) * number + ", " + number;
 		}
-		LOGGER.info("request = " + request);
 		
 		computers = jdbcTemplate.query(request, rowMapper);
 		
@@ -106,13 +99,11 @@ public class ComputerDAO {
 		} else if (order.contains("company")) {
 			order = "company.name";
 		}
-		LOGGER.info("order = " + order);
 		
 		request = request + sortElement + " " + order;
 		if (number != -1 && page != -1) {
 			request = request + " LIMIT " + (page - 1) * number + ", " + number;
 		}
-		LOGGER.info("request = " + request);
 
 		computers = jdbcTemplate.query(request, rowMapper);
 		
@@ -122,8 +113,11 @@ public class ComputerDAO {
 	public Optional<Computer> listDetails(long id) {
 		LOGGER.info("listDetails called !");
 		Optional<Computer> computer = null;
+		String request = LIST_COMPUTER_DETAILS + id;
+		LOGGER.info("request = " + request);
 		
-		computer = Optional.ofNullable(jdbcTemplate.query(LIST_COMPUTER_DETAILS, new Object[]{id}, rowMapper).get(0));dbConnection.disconnect();
+		jdbcTemplate.query(request, rowMapper);
+		computer = Optional.ofNullable(jdbcTemplate.query(request, rowMapper).get(0));
 
 		return computer;
 	}
@@ -135,7 +129,7 @@ public class ComputerDAO {
 		statement.setLong(4, computer.getCompany().getId());
 		statement.setLong(5, computer.getId());
 		statement.executeUpdate();*/
-		jdbcTemplate.update(UPDATE_COMPUTER, new Object[]{computer.getComputerName(), computer.getIntroduced(), computer.getDiscontinued(), computer.getCompany().getId(), computer.getId()});
+		jdbcTemplate.update(UPDATE_COMPUTER, new Object[]{computer.getName(), computer.getIntroduced(), computer.getDiscontinued(), computer.getCompany().getId(), computer.getId()});
 
 		return computer;
 	}

@@ -13,7 +13,7 @@ import com.zaxxer.hikari.HikariDataSource;
 		"com.computerDatabase.excilys.mapper"
 		})
 
-public class Configuration {
+public class MainConfiguration {
 	@Bean
 	@ConfigurationProperties(prefix = "spring.datasource")
 	public HikariDataSource dataSource() {

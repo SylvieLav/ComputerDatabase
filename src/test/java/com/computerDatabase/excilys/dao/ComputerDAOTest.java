@@ -14,7 +14,7 @@ import com.computerDatabase.excilys.model.Computer.ComputerBuilder;
 
 public class ComputerDAOTest {
 	@InjectMocks
-	private ComputerDAO computerDAO = ComputerDAO.getInstance();
+	private ComputerDAO computerDAO;
 	
 	@Before
 	public void setUp() {
@@ -29,8 +29,8 @@ public class ComputerDAOTest {
 	}
 
 	@Test
-	public void testList(long number, long pageNumber) {
-		List<Computer> actual = computerDAO.list(number, pageNumber);
+	public void testList(long number, long pageNumber, String sortElement, String order) {
+		List<Computer> actual = computerDAO.list(number, pageNumber, sortElement, order);
 		List<Computer> expected = new ArrayList<>();
 		for (int i = 0; i<10; i++) {
 			Computer computer = new Computer.ComputerBuilder("computer n° " + i).build();

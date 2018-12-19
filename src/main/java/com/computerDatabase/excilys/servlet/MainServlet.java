@@ -94,6 +94,11 @@ public class MainServlet extends HttpServlet {
 		if (page < lastPage) {
 			nextPage = page + 1;
 		}
+		
+		if (request.getParameter("lang") == null) {
+			lang = "EN";
+		}
+		
 		Long[] pageArray = pageList.stream().map(Long::new).toArray(Long[]::new);
 		request.setAttribute("number", number);
 		request.setAttribute("pageNumber", page);
@@ -118,10 +123,10 @@ public class MainServlet extends HttpServlet {
 		}
 
 		List<ComputerDTO> computersDTO = new ArrayList<>();
-		request.setAttribute("computers", computersDTO);
 		computers.stream().forEach(computer -> {
 			computersDTO.add(computerDTOMapper.map(computer));
 		});
+		request.setAttribute("computers", computersDTO);
 
 		this.getServletContext().getRequestDispatcher("/WEB-INF/views/dashboard.jsp").forward(request, response);
 	}

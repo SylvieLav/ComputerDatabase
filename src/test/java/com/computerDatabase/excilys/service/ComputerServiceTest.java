@@ -12,7 +12,7 @@ import com.computerDatabase.excilys.model.Computer.ComputerBuilder;
 
 public class ComputerServiceTest {
 	@InjectMocks
-	private ComputerService computerService = ComputerService.getInstance();
+	private ComputerService computerService;
 	
 	@Before
 	public void setUp() {
@@ -28,8 +28,8 @@ public class ComputerServiceTest {
 	}
 
 	@Test
-	public void testListService(long number, long page) {
-		List<Computer> actual = computerService.listService(number, page);
+	public void testListService(long number, long page, String sortElement, String order) {
+		List<Computer> actual = computerService.listService(number, page, sortElement, order);
 		List<Computer> expected = new ArrayList<Computer>();
 		
 		assertEquals("Test failed in companyService.listService() !", expected, actual);

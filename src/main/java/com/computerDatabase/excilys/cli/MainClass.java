@@ -5,12 +5,12 @@ import java.util.Scanner;
 import org.slf4j.*;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import com.computerDatabase.excilys.spring.Configuration;
+import com.computerDatabase.excilys.spring.MainConfiguration;
 
 public class MainClass {
 	private static final Logger LOGGER = LoggerFactory.getLogger(MainClass.class);
 
-	private static ApplicationContext applicationContext = new AnnotationConfigApplicationContext(Configuration.class);
+	private static ApplicationContext applicationContext = new AnnotationConfigApplicationContext(MainConfiguration.class);
 	private static CompanyCli companyCli = applicationContext.getBean("companyCli", CompanyCli.class);
 	private static ComputerCli computerCli = applicationContext.getBean("computerCli", ComputerCli.class);
 	

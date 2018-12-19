@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<fmt:setLocale value="${lang}"/>
-<fmt:setBundle basename="com.computerDatabase.excilys.i18n.translate" />
+<%@taglib prefix="spring" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<spring:setLocale value="${lang}"/>
+<spring:setBundle basename="com.computerDatabase.excilys.i18n.translate" />
 <html lang="${lang}">
 	<head>
 		<title>Computer Database</title>
@@ -23,18 +23,18 @@
     <section id="main">
     	<div class="container">
 			<h1 id="homeTitle">
-				<c:out value="${computersSize}" /> <fmt:message key="label.searchNumber" />
+				<c:out value="${computersSize}" /> <spring:message key="label.searchNumber" />
 			</h1>
 			<div id="actions" class="form-horizontal">
 				<div class="pull-left">
 					<form id="searchForm" action="#" method="GET" class="form-inline">
-                    	<input type="search" id="searchbox" name="search" class="form-control" placeholder="<fmt:message key="label.searchInput" />" />
-                        <input type="submit" id="searchsubmit" value="<fmt:message key="label.searchFilter" />" onclick="location.href='?search=" class="btn btn-primary" />
+                    	<input type="search" id="searchbox" name="search" class="form-control" placeholder="<spring:message key="label.searchInput" />" />
+                        <input type="submit" id="searchsubmit" value="<spring:message key="label.searchFilter" />" onclick="location.href='?search=" class="btn btn-primary" />
                     </form>
                 </div>
                 <div class="pull-right">
-                    <a class="btn btn-success" id="addComputer" href="addComputer"><fmt:message key="label.addComputer" /></a>
-                    <a class="btn btn-default" id="editComputer" href="#" onclick="$.fn.toggleEditMode();"><fmt:message key="label.deleteComputer" /></a>
+                    <a class="btn btn-success" id="addComputer" href="addComputer?lang=${lang}"><spring:message key="label.addComputer" /></a>
+                    <a class="btn btn-default" id="editComputer" href="#" onclick="$.fn.toggleEditMode();"><spring:message key="label.deleteComputer" /></a>
                 </div>
             </div>
         </div>
@@ -57,33 +57,33 @@
                             	</span>
                         	</th>
                         	<th>
-								<a href="#" onclick="location.href='?sortBy=name&orderBy=${orderBy}'"><fmt:message key="label.computerName" /></a>
+								<a href="#" onclick="location.href='?sortBy=name&orderBy=${orderBy}'"><spring:message key="label.computerName" /></a>
 							</th>
                         	<th>
-                            	<a href="#" onclick="location.href='?sortBy=introduced&orderBy=${orderBy}'"><fmt:message key="label.introducedDate" /></a>
+                            	<a href="#" onclick="location.href='?sortBy=introduced&orderBy=${orderBy}'"><spring:message key="label.introducedDate" /></a>
 							</th>
 							<th>
-                            	<a href="#" onclick="location.href='?sortBy=discontinued&orderBy=${orderBy}'"><fmt:message key="label.discontinuedDate" /></a>
+                            	<a href="#" onclick="location.href='?sortBy=discontinued&orderBy=${orderBy}'"><spring:message key="label.discontinuedDate" /></a>
                         	</th>
                         	<th>
-								<a href="#" onclick="location.href='?sortBy=companyName&orderBy=${orderBy}'"><fmt:message key="label.company" /></a>
+								<a href="#" onclick="location.href='?sortBy=companyName&orderBy=${orderBy}'"><spring:message key="label.company" /></a>
 							</th>
 
 						</tr>
                 	</thead>
                 	<!-- Browse attribute computers -->
                 	<tbody id="results">
-                		<c:forEach items="${computers}" var="item">
+                		<c:forEach items="${computers}" var="computer">
                 			<tr>
                         		<td class="editMode">
-                            		<input type="checkbox" name="cb" class="cb" value="${item.id}">
+                            		<input type="checkbox" name="cb" class="cb" value="${computer.id}">
                         		</td>
                         		<td>
-                            		<a href="editComputer?computerId=${item.id}" onclick=""><c:out value="${item.name}"/></a>
+                            		<a href="editComputer?computerId=${computer.id}&lang=${lang}" onclick=""><c:out value="${computer.name}"/></a>
                         		</td>
-                        		<td><c:out value="${item.introduced}"/></td>
-								<td><c:out value="${item.discontinued}"/></td>
-                        		<td><c:out value="${item.companyName}"/></td>
+                        		<td><c:out value="${computer.introduced}"/></td>
+								<td><c:out value="${computer.discontinued}"/></td>
+                        		<td><c:out value="${computer.companyName}"/></td>
 							</tr>
 						</c:forEach>
 					</tbody>
@@ -100,8 +100,8 @@
                 	<span aria-hidden="true">&laquo;</span>
                 </a>
               </li>
-              <c:forEach items="${pageArray}" var="item">
-              	<li><a href="#" onclick="location.href='?number=${number}&page=${item}';">${item}</a></li>
+              <c:forEach items="${pageArray}" var="page">
+              	<li><a href="#" onclick="location.href='?number=${number}&page=${page}';">${page}</a></li>
               </c:forEach>
               <li>
                 <a href="#" onclick="location.href='?number=${number}&page=${nextPage}'" aria-label="Next">
@@ -111,9 +111,9 @@
             </ul>
             
        	<div class="btn-group btn-group-sm pull-right" role="group">
-			<button type="button" onclick="location.href='?number=10&page=1';" class="btn btn-default">10</button>
-			<button type="button" onclick="location.href='?number=50&page=1';" class="btn btn-default">50</button>
-			<button type="button" onclick="location.href='?number=100&page=1';" class="btn btn-default">100</button>
+			<button type="button" onclick="location.href='?number=10&page=1&lang=${lang}';" class="btn btn-default">10</button>
+			<button type="button" onclick="location.href='?number=50&page=1&lang=${lang}';" class="btn btn-default">50</button>
+			<button type="button" onclick="location.href='?number=100&page=1&lang=${lang}';" class="btn btn-default">100</button>
 		</div>
 		<div class="btn-group btn-group-sm pull-right" role="group">
 			<button type="button" onclick="location.href='?number=${number}&page=${pageNumber}&lang=EN';" class="btn btn-default">EN</button>

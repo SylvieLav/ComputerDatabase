@@ -13,7 +13,7 @@ public class ComputerDTO {
 	
 	public ComputerDTO(Computer computer) {
 		this.id = computer.getId();
-		this.name = computer.getComputerName();
+		this.name = computer.getName();
 		this.introduced = computer.getIntroduced();
 		this.discontinued = computer.getDiscontinued();
 		this.companyName = computer.getCompany().getName();

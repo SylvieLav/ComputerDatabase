@@ -3,7 +3,6 @@ package com.computerDatabase.excilys.mapper;
 import static org.junit.Assert.assertEquals;
 
 import java.sql.*;
-import java.util.*;
 
 import org.junit.*;
 import org.mockito.*;
@@ -24,10 +23,10 @@ public class ComputerMapperTest {
 
 	@Test
 	public void testSetComputers(ResultSet rs) {
-		List<Computer> actual = new ArrayList<>();
-		List<Computer> expected = new ArrayList<>();
+		Computer actual = null;
+		Computer expected = null;
 		try {
-			actual = computerMapper.mapComputers(rs);
+			actual = computerMapper.mapComputer(rs);
 		} catch (SQLException e) {
 			LOGGER.error("Could not map computers for the test !");
 		}

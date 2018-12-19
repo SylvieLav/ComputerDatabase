@@ -13,7 +13,7 @@ import com.computerDatabase.excilys.model.Company;
 
 public class CompanyDAOTest {
 	@Mock
-	private DbConnection22 dbConnection;
+	private DbConnection dbConnection;
 	@Mock
 	private Connection connection;
 	@Mock
@@ -23,7 +23,7 @@ public class CompanyDAOTest {
 	@Mock
 	private CompanyMapper companyMapper;
 	@InjectMocks
-	private CompanyDAO companyDAO = CompanyDAO.getInstance();
+	private CompanyDAO companyDAO;
 	
 	@Before
 	public void setUp() {
