@@ -3,12 +3,10 @@ package com.computerDatabase.excilys.servlet;
 import java.io.IOException;
 import java.util.List;
 
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
+import javax.servlet.*;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import com.computerDatabase.excilys.model.Company;
@@ -19,7 +17,6 @@ import com.computerDatabase.excilys.service.CompanyService;
  */
 @WebServlet("/CreateComputerServlet")
 public class CreateComputerServlet extends HttpServlet {
-	@Autowired
 	private CompanyService companyService;
 	private static final long serialVersionUID = -9075919656212484604L;
 
@@ -36,7 +33,7 @@ public class CreateComputerServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
-		List<Company> companies = companyService.listService();
+		List<Company> companies = companyService.list();
 		
 		request.setAttribute("lang", request.getParameter("lang"));
 		request.setAttribute("companies", companies);

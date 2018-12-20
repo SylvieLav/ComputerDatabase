@@ -8,9 +8,8 @@ import com.computerDatabase.excilys.model.Computer;
 @Component
 public class ComputerDTOMapper {
 	
-	private ComputerDTOMapper() {
-	}
-
+	private ComputerDTOMapper() {}
+	
 	public ComputerDTO map(Computer computer) {
 		ComputerDTO computerDTO = new ComputerDTO(computer);
 		computerDTO.setId(computer.getId());

@@ -27,13 +27,12 @@ public class Company {
 
 		public CompanyBuilder name(String name) {
 			builderName = name;
+			
 			return this;
 		}
 
 		public Company build() {
 			return new Company(this);
 		}
-
 	}
-
 }

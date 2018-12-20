@@ -7,8 +7,7 @@ import java.util.Properties;
 import org.slf4j.*;
 import org.springframework.stereotype.Component;
 
-import com.zaxxer.hikari.HikariConfig;
-import com.zaxxer.hikari.HikariDataSource;
+import com.zaxxer.hikari.*;
 
 @Component
 public class DbConnection {
@@ -18,9 +17,7 @@ public class DbConnection {
 
 	private Connection connection;
 	
-
-	private DbConnection() {
-	}
+	private DbConnection() {}
 
 	static {
 		Properties prop = new Properties();

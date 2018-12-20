@@ -2,11 +2,11 @@ package com.computerDatabase.excilys.spring;
 
 import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.*;
+
 import com.zaxxer.hikari.HikariDataSource;
 
-//@Configuration
+@Configuration
 @ComponentScan(value = {
 		"com.computerDatabase.excilys.dao",
 		"com.computerDatabase.excilys.service",

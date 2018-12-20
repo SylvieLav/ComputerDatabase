@@ -58,5 +58,4 @@ public class ComputerDTO {
 	public LocalDateTime getIntroduced() {
 		return introduced;
 	}
-	
 }

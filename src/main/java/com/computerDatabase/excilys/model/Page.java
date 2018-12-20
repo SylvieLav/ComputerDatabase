@@ -4,8 +4,7 @@ import java.util.List;
 
 public class Page {
 
-	public Page() {
-	}
+	public Page() {}
 
 	public Computer[] createPage(List<Computer> computers, int number, int pageNumber) {
 		Computer[] computerArray = new Computer[number];

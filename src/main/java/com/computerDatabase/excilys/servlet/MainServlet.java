@@ -3,8 +3,7 @@ package com.computerDatabase.excilys.servlet;
 import java.io.IOException;
 import java.util.*;
 
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
+import javax.servlet.*;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 
@@ -41,7 +40,7 @@ public class MainServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
-		List<Computer> computers = computerService.listService(-1, -1, "name", "ASC");
+		List<Computer> computers = computerService.list(-1, -1, "name", "ASC");
 		long totalNumber = computers.size();
 		long number = totalNumber;
 		long page = 1;
@@ -109,23 +108,21 @@ public class MainServlet extends HttpServlet {
 		
 		if (sortBy != null) {
 			if (number != totalNumber) {
-				computers = computerService.listService(number, page, sortBy, request.getParameter("orderBy"));
+				computers = computerService.list(number, page, sortBy, request.getParameter("orderBy"));
 			} else {
-				computers = computerService.listService(-1, -1, sortBy, request.getParameter("orderBy"));
+				computers = computerService.list(-1, -1, sortBy, request.getParameter("orderBy"));
 			}
 		} else if (search != null) {
-			computers = computerService.listBySearchService(-1, -1, "name", "ASC", search);
+			computers = computerService.listBySearch(-1, -1, "name", "ASC", search);
 			totalNumber = computers.size();
 		} else if (number != totalNumber) {
-			computers = computerService.listService(number, page, "name", "ASC");
+			computers = computerService.list(number, page, "name", "ASC");
 		} else {
-			computers = computerService.listService(-1, -1, "name", "ASC");
+			computers = computerService.list(-1, -1, "name", "ASC");
 		}
 
 		List<ComputerDTO> computersDTO = new ArrayList<>();
-		computers.stream().forEach(computer -> {
-			computersDTO.add(computerDTOMapper.map(computer));
-		});
+		computers.stream().map(computer-> computersDTO.add(computerDTOMapper.map(computer)));
 		request.setAttribute("computers", computersDTO);
 
 		this.getServletContext().getRequestDispatcher("/WEB-INF/views/dashboard.jsp").forward(request, response);
@@ -135,7 +132,7 @@ public class MainServlet extends HttpServlet {
 			throws ServletException, IOException {
 		String[] cbArray = request.getParameterValues("cb");
 		for (String cb : cbArray) {
-			computerService.deleteService(Long.parseLong(cb));
+			computerService.delete(Long.parseLong(cb));
 		}
 	}
 }

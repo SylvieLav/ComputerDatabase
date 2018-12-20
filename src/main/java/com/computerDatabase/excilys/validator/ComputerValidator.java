@@ -9,8 +9,7 @@ import com.computerDatabase.excilys.model.Computer;
 public class ComputerValidator {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ComputerValidator.class);
 
-	private ComputerValidator() {
-	}
+	private ComputerValidator() {}
 
 	private boolean validateName(String name) {
 		if ("".equals(name)) {
@@ -22,7 +21,6 @@ public class ComputerValidator {
 	}
 
 	private boolean validateComputerDate(LocalDateTime introduced, LocalDateTime discontinued) {
-
 		if (introduced != null && discontinued != null && introduced.compareTo(discontinued) >= 0) {
 			LOGGER.error("The discontinued date must be after the introduced date !");
 			return false;
@@ -32,12 +30,6 @@ public class ComputerValidator {
 	}
 
 	public boolean validateAll(Computer computer) {
-
-		if (validateName(computer.getName()) == false
-				|| validateComputerDate(computer.getIntroduced(), computer.getDiscontinued()) == false) {
-			return false;
-		}
-
-		return true;
+		return validateName(computer.getName()) && validateComputerDate(computer.getIntroduced(), computer.getDiscontinued());
 	}
 }

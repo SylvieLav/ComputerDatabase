@@ -85,5 +85,4 @@ public class MainClass {
 		input.close();
 		LOGGER.info("The programm has been stopped.");
 	}
-
 }

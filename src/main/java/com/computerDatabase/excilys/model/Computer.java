@@ -46,6 +46,7 @@ public class Computer {
 
 		public ComputerBuilder id(long id) {
 			builderId = id;
+			
 			return this;
 		}
 
@@ -57,6 +58,7 @@ public class Computer {
 			if (company != null) {
 				builderCompany = company;
 			}
+			
 			return this;
 		}
 
@@ -64,6 +66,7 @@ public class Computer {
 			if (introduced != null) {
 				builderIntroduced = introduced;
 			}
+			
 			return this;
 		}
 
@@ -71,6 +74,7 @@ public class Computer {
 			if (discontinued != null) {
 				builderDiscontinued = discontinued;
 			}
+			
 			return this;
 		}
 

@@ -7,8 +7,7 @@ import com.computerDatabase.excilys.model.Company;
 
 public class CompanyMapper {
 
-	public CompanyMapper() {
-	}
+	public CompanyMapper() {}
 
 	public List<Company> mapCompanies(ResultSet rs) throws SQLException {
 		List<Company> companies = new ArrayList<Company>();

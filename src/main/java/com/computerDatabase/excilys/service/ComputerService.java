@@ -2,7 +2,6 @@ package com.computerDatabase.excilys.service;
 
 import java.util.*;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.computerDatabase.excilys.dao.ComputerDAO;
@@ -10,43 +9,35 @@ import com.computerDatabase.excilys.model.Computer;
 
 @Service
 public class ComputerService {
-	@Autowired
 	private ComputerDAO computerDAO;
 
-	private ComputerService() {
-	}
+	private ComputerService() {}
 
-	public Computer createService(Computer computer) {
+	public Computer create(Computer computer) {
 		computerDAO.create(computer);
 
 		return computer;
 	}
 
-	public List<Computer> listBySearchService(long number, long pageNumber, String sortElement, String order, String filter) {
-		List<Computer> computers = computerDAO.listBySearch(number, pageNumber, sortElement, order, filter);
-
-		return computers;
+	public List<Computer> listBySearch(long number, long pageNumber, String sortElement, String order, String filter) {
+		return computerDAO.listBySearch(number, pageNumber, sortElement, order, filter);
 	}
 
-	public List<Computer> listService(long number, long page, String sortElement, String order) {
-		List<Computer> computers = computerDAO.list(number, page, sortElement, order);
-
-		return computers;
+	public List<Computer> list(long number, long page, String sortElement, String order) {
+		return computerDAO.list(number, page, sortElement, order);
 	}
 
-	public Optional<Computer> listDetailsService(long id) {
-		Optional<Computer> computer = computerDAO.listDetails(id);
-
-		return computer;
+	public Optional<Computer> listDetails(long id) {
+		return computerDAO.listDetails(id);
 	}
 
-	public Computer updateService(Computer computer) {
+	public Computer update(Computer computer) {
 		computer = computerDAO.update(computer);
 
 		return computer;
 	}
 
-	public long deleteService(long id) {
+	public long delete(long id) {
 		computerDAO.delete(id);
 
 		return id;
