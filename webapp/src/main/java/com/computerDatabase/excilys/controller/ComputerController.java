@@ -103,7 +103,7 @@ public class ComputerController {
 		computers.stream().map(computer-> computersDTO.add(computerDTOMapper.map(computer)));
 		model.addAttribute("computers", computersDTO);
 		
-		return "dashboard";
+		return "/dashboard";
 	}
 	
 	@GetMapping(value = "/addComputer")

@@ -8,9 +8,6 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
-	<name>computer-database</name>
-	<url>http://maven.apache.org</url>
-
 	<modules>
 		<module>binding</module>
 		<module>console</module>
@@ -19,29 +16,7 @@
 		<module>service</module>
 		<module>webapp</module>
 	</modules>
-
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<maven.compiler.version>3.8.0</maven.compiler.version>
-		<maven.war.version>3.2.2</maven.war.version>
-		<com.h2database.version>1.4.197</com.h2database.version>
-		<hibernate.core.version>5.4.0.Final</hibernate.core.version>
-		<hibernate.hql.parser.version>1.5.0.Final</hibernate.hql.parser.version>
-		<hibernate.validator.version>5.4.1.Final</hibernate.validator.version>
-		<javax.servlet.version>4.0.1</javax.servlet.version>
-		<jquery.version>3.3.1</jquery.version>
-		<junit.version>4.11</junit.version>
-		<mysql.connector.version>8.0.13</mysql.connector.version>
-		<apt.maven.plugin.version>1.1.3</apt.maven.plugin.version>
-		<maven.checkstyle.version>3.0.0</maven.checkstyle.version>
-		<org.mockito.version>2.23.4</org.mockito.version>
-		<org.slf4j.version>1.6.4</org.slf4j.version>
-		<querydsl.version>4.2.1</querydsl.version>
-		<spring.boot.version>2.1.3.RELEASE</spring.boot.version>
-		<spring.version>5.1.4.RELEASE</spring.version>
-		<spring.security.version>5.1.3.RELEASE</spring.security.version>
-	</properties>
-
+	
 	<build>
 		<plugins>
 			<plugin>
@@ -52,14 +27,14 @@
 					<source>1.8</source>
 					<target>1.8</target>
 				</configuration>
-			</plugin>
-			<plugin>
+			</plugin>			<plugin>
 				<artifactId>maven-war-plugin</artifactId>
 				<version>${maven.war.version}</version>
 				<configuration>
 					<warSourceDirectory>WebContent</warSourceDirectory>
 				</configuration>
 			</plugin>
+
 			<plugin>
 				<groupId>com.mysema.maven</groupId>
 				<artifactId>apt-maven-plugin</artifactId>
@@ -72,8 +47,8 @@
 						<configuration>
 							<outputDirectory>target/generated-sources/java</outputDirectory>
 							<processor>com.querydsl.apt.jpa.JPAAnnotationProcessor</processor>
-							<!-- <!options> <querydsl.entityAccessors>true</querydsl.entityAccessors> 
-								<querydsl.useFields>false</querydsl.useFields> </options> -->
+							<!--options> <querydsl.entityAccessors>true</querydsl.entityAccessors> 
+								<querydsl.useFields>false</querydsl.useFields> </options-->
 						</configuration>
 					</execution>
 				</executions>
@@ -81,11 +56,40 @@
 		</plugins>
 	</build>
 
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.version>3.8.0</maven.compiler.version>
+		<maven.war.version>3.2.2</maven.war.version>
+		<com.h2database.version>1.4.197</com.h2database.version>
+		<hibernate.core.version>5.4.0.Final</hibernate.core.version>
+		<hibernate.hql.parser.version>1.5.0.Final</hibernate.hql.parser.version>
+		<hibernate.validator.version>5.4.1.Final</hibernate.validator.version>
+		<javax.jstl.version>1.2</javax.jstl.version>
+		<javax.servlet.version>4.0.1</javax.servlet.version>
+		<jquery.version>3.3.1</jquery.version>
+		<junit.version>4.11</junit.version>
+		<mysql.connector.version>8.0.13</mysql.connector.version>
+		<apt.maven.plugin.version>1.1.3</apt.maven.plugin.version>
+		<maven.checkstyle.version>3.0.0</maven.checkstyle.version>
+		<org.mockito.version>2.23.4</org.mockito.version>
+		<org.slf4j.version>1.6.4</org.slf4j.version>
+		<querydsl.version>4.2.1</querydsl.version>
+		<spring.boot.version>2.1.3.RELEASE</spring.boot.version>
+		<spring.data.version>2.1.5.RELEASE</spring.data.version>
+		<spring.version>5.1.4.RELEASE</spring.version>
+		<spring.security.version>5.1.3.RELEASE</spring.security.version>
+	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 			<version>${spring.boot.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-jpa</artifactId>
+			<version>${spring.data.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -106,6 +110,11 @@
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 			<version>${javax.servlet.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+			<version>${javax.jstl.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
