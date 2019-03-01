@@ -29,7 +29,7 @@ public class ComputerController {
 	public String listComputers(@RequestParam(required = false) Long number, @RequestParam(required = false) Long page,
 			@RequestParam(required = false) String search, @RequestParam(required = false) String sortBy, @RequestParam(required = false) String lang,
 			@RequestParam(required = false) String orderBy, Model model) {
-		LOGGER.info("******************************ComputerController******************************");
+		LOGGER.info("******************************listComputers******************************");
 		List<Computer> computers = computerService.list(-1, -1, "name", "ASC");
 		long totalNumber = computers.size();
 		number = totalNumber;
@@ -103,11 +103,11 @@ public class ComputerController {
 		computers.stream().map(computer-> computersDTO.add(computerDTOMapper.map(computer)));
 		model.addAttribute("computers", computersDTO);
 		
-		return "dashboard";
+		return "/dashboard";
 	}
 	
-	@GetMapping(value = "/addComputer")
 	public String createComputer(@RequestParam(required = false) String lang, Model model) {
+		LOGGER.info("******************************createComputer******************************");
 		List<Company> companies = companyService.list();
 		
 		model.addAttribute("lang", lang);
@@ -116,8 +116,9 @@ public class ComputerController {
 		return "addComputer";
 	}
 	
-	@PostMapping(value = "/editComputer/{computerId}")
+	@PostMapping(value = "editComputer/{computerId}")
 	public String updateComputer(@RequestParam(required = false) long computerId, @RequestParam(required = false) String lang, Model model) {
+		LOGGER.info("******************************updateComputer******************************");
 		try {
 			LOGGER.info("computerId = " + computerId);
 			Computer computer = null;
@@ -140,6 +141,7 @@ public class ComputerController {
 	
 	@PostMapping
 	public String deleteComputer(@RequestParam(required = false) String[] cb) {
+		LOGGER.info("******************************deleteComputer******************************");
 		for (String cbItem : cb) {
 			computerService.delete(Long.parseLong(cbItem));
 		}
