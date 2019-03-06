@@ -4,6 +4,8 @@
 ### Eclipse ###
 
 .metadata
+/resources/
+.settings/
 bin/
 tmp/
 *.tmp
@@ -11,10 +13,10 @@ tmp/
 *.swp
 *~.nib
 local.properties
-.settings/
+.classpath
 .loadpath
+.project
 .recommenders
-/resources/
 
 # External tool builders
 .externalToolBuilders/
