@@ -1,24 +1,21 @@
 package com.computerDatabase.excilys.dao;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
+import org.hibernate.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.computerDatabase.excilys.model.Computer;
-import com.computerDatabase.excilys.model.QComputer;
-import com.querydsl.jpa.hibernate.HibernateQuery;
-import com.querydsl.jpa.hibernate.HibernateQueryFactory;
+import com.computerDatabase.excilys.model.*;
+import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.jpa.hibernate.*;
 
 @Component
 public class ComputerDAO {
-
+	
 	@Autowired
 	private SessionFactory sessionFactory;
-	
+
 	@Autowired
 	private ComputerDAO() {}
 
@@ -31,28 +28,55 @@ public class ComputerDAO {
 		} finally {
 			session.close();
 		}
-		
+
 		return computer;
 	}
 
-	public List<Computer> list(long number, long page, String sortElement, String order) {
+	public List<Computer> list(long number, long page, String sortElement, String orderBy) {
+		QComputer qComputer = QComputer.computer;
 		Session session = sessionFactory.openSession();
 		HibernateQueryFactory query = new HibernateQueryFactory(session);
+		OrderSpecifier<?> specifier = null;
+		if (sortElement.contains("introduced")) {
+			if (orderBy.contains("DESC"))
+				specifier = qComputer.introduced.desc();
+			else
+				specifier = qComputer.introduced.asc();
+		} else if (sortElement.contains("discontinued")) {
+			if (orderBy.contains("DESC"))
+				specifier = qComputer.discontinued.desc();
+			else
+				specifier = qComputer.discontinued.asc();
+		} else if (sortElement.contains("companyName")) {
+			if (orderBy.contains("DESC"))
+				specifier = qComputer.company().name.desc();
+			else
+				specifier = qComputer.company().name.asc();
+		} else {
+			if (orderBy.contains("DESC"))
+				specifier = qComputer.name.desc();
+			else
+				specifier = qComputer.name.asc();
+		}
+
 		try {
-			HibernateQuery<Computer> hComputers = query.selectFrom(QComputer.computer);
+			HibernateQuery<Computer> hComputers = null;
+			if (number == -1)
+				hComputers = query.selectFrom(qComputer).orderBy(specifier);
+			else
+				hComputers = query.selectFrom(qComputer).orderBy(specifier).limit(number).offset((page-1)*number);
 			return hComputers.fetch();
 		} finally {
 			session.close();
 		}
 	}
-	
-	public List<Computer> listBySearch(long number, long page, String sortElement, String order, String filter) {
-		QComputer qcomputer = QComputer.computer;
+
+	public List<Computer> listBySearch(long number, long page, String sortElement, String orderBy, String search) {
+		QComputer qComputer = QComputer.computer;
 		Session session = sessionFactory.openSession();
 		HibernateQueryFactory query = new HibernateQueryFactory(session);
 		try {
-			HibernateQuery<Computer> hComputers = query.selectFrom(qcomputer).where(
-					qcomputer.company.name.like("%" + filter + "%").or(qcomputer.name.like("%" + filter + "%")));
+			HibernateQuery<Computer> hComputers = query.selectFrom(qComputer).where(qComputer.company().name.like("%" + search + "%").or(qComputer.name.like("%" + search + "%")));
 			return hComputers.fetch();
 		} finally {
 			session.close();
@@ -68,9 +92,9 @@ public class ComputerDAO {
 			return Optional.ofNullable(hComputer.fetchOne());
 		} finally {
 			session.close();
-}
+		}
 	}
-
+	
 	public Computer update(Computer computer) {
 		Session session = sessionFactory.openSession();
 		session.beginTransaction();

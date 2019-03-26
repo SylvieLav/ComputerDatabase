@@ -4,22 +4,6 @@ import java.util.*;
 
 public class Page {
 	
-	public long getPreviousPage(long pageNumber) {
-		if (pageNumber > 1) {
-			return pageNumber-1;
-		}
-		
-		return 1;
-	}
-	
-	public long getNextPage(long pageNumber, long lastPage) {
-		if (pageNumber < lastPage) {
-			return pageNumber + 1;
-		}
-		
-		return lastPage;
-	}
-	
 	public long getLastPage(long computersSize, long number) {
 		return (computersSize + number - 1) / number;
 	}
@@ -43,5 +27,4 @@ public class Page {
 		
 		return pageList.stream().map(Long::new).toArray(Long[]::new);
 	}
-
 }

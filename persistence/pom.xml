@@ -19,13 +19,26 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
+		<computerdatabase.version>0.0.1-SNAPSHOT</computerdatabase.version>
+		<querydsl.version>4.2.1</querydsl.version>
 	</properties>
 
 	<dependencies>
 		<dependency>
 			<groupId>com.computerDatabase.excilys</groupId>
 			<artifactId>core</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${computerdatabase.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.querydsl</groupId>
+			<artifactId>querydsl-apt</artifactId>
+			<version>4.2.1</version>
+			<scope>${querydsl.version}</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.querydsl</groupId>
+			<artifactId>querydsl-jpa</artifactId>
+			<version>${querydsl.version}</version>
 		</dependency>
 	</dependencies>
 

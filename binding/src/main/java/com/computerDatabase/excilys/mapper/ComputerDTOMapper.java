@@ -13,10 +13,13 @@ public class ComputerDTOMapper {
 	public ComputerDTO map(Computer computer) {
 		ComputerDTO computerDTO = new ComputerDTO(computer);
 		computerDTO.setId(computer.getId());
-		computerDTO.setIntroduced(computer.getIntroduced());
-		computerDTO.setDiscontinued(computer.getDiscontinued());
 		computerDTO.setName(computer.getName());
-		computerDTO.setCompanyName(computer.getCompany().getName());
+		if (computer.getIntroduced() != null)
+			computerDTO.setIntroduced(computer.getIntroduced().toString());
+		if (computer.getIntroduced() != null)
+			computerDTO.setDiscontinued(computer.getDiscontinued().toString());
+		if (computer.getCompany() != null)
+			computerDTO.setCompanyId(String.valueOf(computer.getCompany().getId()));
 
 		return computerDTO;
 	}

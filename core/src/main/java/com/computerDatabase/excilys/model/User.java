@@ -1,39 +1,51 @@
 package com.computerDatabase.excilys.model;
 
 import java.io.Serializable;
-import java.util.Collection;
 
 import javax.persistence.*;
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
 @Entity
-@Table(name = "user")
-public class User implements Serializable , UserDetails {
+@Table(name = "users")
+public class User implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
-	private Integer userId;
-	@Column(name = "username")
-	private String username;
-	@Column(name = "password")
+	private long id;
+	@Column(name = "loginName")
+	private String name;
+	@Column(name = "passwordHash")
 	private String password;
+	@ManyToOne
+	@JoinColumn(name = "role_id")
+	private Role role;
 
-	public Integer getUserId() {
-		return userId;
+	public User() {}
+
+	public User(long id, String name, String password, Role role) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.password = password;
+		this.role = role;
 	}
 
-	public void setUserId(Integer userId) {
-		this.userId = userId;
+	public long getId() {
+		return id;
 	}
 
-	public String getUsername() {
-		return username;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public String getName() {
+		return name;
+	}
+
+	public void setUsername(String name) {
+		this.name = name;
 	}
 
 	public String getPassword() {
@@ -43,29 +55,11 @@ public class User implements Serializable , UserDetails {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
-	@Override
-	public boolean isAccountNonExpired() {
-		return false;
+	public Role getRole() {
+		return role;
+	}
+	public void setRole(Role role) {
+		this.role = role;
 	}
 
-	@Override
-	public boolean isAccountNonLocked() {
-		return false;
-	}
-
-	@Override
-	public boolean isCredentialsNonExpired() {
-		return false;
-	}
-
-	@Override
-	public boolean isEnabled() {
-		return false;
-	}
-
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return null;
-	}
 }

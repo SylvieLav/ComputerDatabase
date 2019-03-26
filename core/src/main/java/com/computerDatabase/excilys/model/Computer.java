@@ -1,12 +1,15 @@
 package com.computerDatabase.excilys.model;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "computer", schema = "computer-database-db")
-public class Computer {
+public class Computer implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,9 +20,11 @@ public class Computer {
 	private String name;
 	
 	@Column(name = "introduced")
+	@Convert(converter = TimeConverter.class)
 	private LocalDateTime introduced;
 	
 	@Column(name = "discontinued")
+	@Convert(converter = TimeConverter.class)
 	private LocalDateTime discontinued;
 	
 	@ManyToOne
@@ -57,11 +62,11 @@ public class Computer {
 	}
 	
 	public static class ComputerBuilder {
-		private String			builderName;
-		private long			builderId;
-		private Company			builderCompany;
-		private LocalDateTime	builderIntroduced;
-		private LocalDateTime	builderDiscontinued;
+		private String	  builderName;
+		private long	  builderId;
+		private Company	  builderCompany;
+		private LocalDateTime builderIntroduced;
+		private LocalDateTime builderDiscontinued;
 		
 		public ComputerBuilder(String name) {
 			builderName = name;

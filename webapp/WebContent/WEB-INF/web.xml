@@ -4,26 +4,17 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_3_0.xsd"
 	version="3.0">
 
-	<jsp-config>
-		<jsp-property-group>
-			<url-pattern>*.jsp</url-pattern>
-			<include-prelude>/WEB-INF/views/taglibs.jsp</include-prelude>
-		</jsp-property-group>
-	</jsp-config>
+	<filter>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
 
 	<error-page>
-		<error-code>403</error-code>
-		<location>/views/403.html</location>
+		<location>/errors</location>
 	</error-page>
-
-	<error-page>
-		<error-code>404</error-code>
-		<location>/views/404.html</location>
-	</error-page>
-
-	<error-page>
-		<error-code>500</error-code>
-		<location>/views/500.html</location>
-	</error-page>
-
+	
 </web-app>

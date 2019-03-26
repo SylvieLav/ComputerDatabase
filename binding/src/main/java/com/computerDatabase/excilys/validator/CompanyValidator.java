@@ -1,26 +1,27 @@
 package com.computerDatabase.excilys.validator;
 
-import org.slf4j.*;
+import org.springframework.stereotype.Component;
 
+import com.computerDatabase.excilys.exception.CompanyIdException;
+
+@Component
 public class CompanyValidator {
 	
 	private CompanyValidator() {}
 	
-	private boolean validateCompanyId(String sCompanyId) {
-		Logger logger = LoggerFactory.getLogger(CompanyValidator.class);
-		if (!(sCompanyId.equals(null) || sCompanyId.equals(""))) {
+	private CompanyIdException validateCompanyId(String sCompanyId) {
+		if (!"".equals(sCompanyId)) {
 			try {
 				Long.parseLong(sCompanyId);
 			} catch (NumberFormatException e) {
-				logger.error("Cannot parse the company ID " + sCompanyId);
-				return false;
+				return new CompanyIdException(sCompanyId);
 			}
 		}
 		
-		return true;
+		return null;
 	}
 	
 	public boolean validateAll(String sCompanyId) {
-		return validateCompanyId(sCompanyId);
+		return validateCompanyId(sCompanyId) == null;
 	}
 }

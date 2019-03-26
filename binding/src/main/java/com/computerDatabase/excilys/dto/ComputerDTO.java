@@ -1,61 +1,71 @@
 package com.computerDatabase.excilys.dto;
 
-import java.time.LocalDateTime;
-
 import com.computerDatabase.excilys.model.Computer;
 
 public class ComputerDTO {
-	private LocalDateTime introduced;
-	private LocalDateTime discontinued;
-	private long		  id;
-	private String		  companyName;
-	private String		  name;
+	private long id;
+	private String companyId;
+	private String discontinued;
+	private String introduced;
+	private String name;
 	
+	public ComputerDTO() {}
+	
+	public ComputerDTO(String name, String introduced, String discontinued, String companyId) {
+		this.companyId = companyId;
+		this.introduced = introduced;
+		this.discontinued = discontinued;
+		this.name = name;
+	}
+
 	public ComputerDTO(Computer computer) {
 		this.id = computer.getId();
 		this.name = computer.getName();
-		this.introduced = computer.getIntroduced();
-		this.discontinued = computer.getDiscontinued();
-		this.companyName = computer.getCompany().getName();
+		if (computer.getIntroduced() != null)
+			this.introduced = computer.getIntroduced().toString();
+		if (computer.getDiscontinued() != null)
+			this.discontinued = computer.getDiscontinued().toString();
+		if (computer.getCompany() != null)
+			this.companyId = String.valueOf(computer.getCompany().getId());
 	}
-	
+
 	public long getId() {
 		return id;
 	}
-	
+
 	public void setId(long id) {
 		this.id = id;
 	}
-	
+
 	public String getName() {
 		return name;
 	}
-	
+
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	public String getCompanyName() {
-		return companyName;
+
+	public String getCompanyId() {
+		return companyId;
 	}
-	
-	public void setCompanyName(String companyName) {
-		this.companyName = companyName;
+
+	public void setCompanyId(String companyId) {
+		this.companyId = companyId;
 	}
-	
-	public LocalDateTime getDiscontinued() {
-		return discontinued;
+
+	public String getIntroduced() {
+		return introduced;
 	}
-	
-	public void setDiscontinued(LocalDateTime discontinued) {
-		this.discontinued = discontinued;
-	}
-	
-	public void setIntroduced(LocalDateTime introduced) {
+
+	public void setIntroduced(String introduced) {
 		this.introduced = introduced;
 	}
-	
-	public LocalDateTime getIntroduced() {
-		return introduced;
+
+	public String getDiscontinued() {
+		return discontinued;
+	}
+
+	public void setDiscontinued(String discontinued) {
+		this.discontinued = discontinued;
 	}
 }

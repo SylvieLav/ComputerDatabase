@@ -20,32 +20,51 @@
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<maven.war.version>3.2.2</maven.war.version>
+		<computerdatabase.version>0.0.1-SNAPSHOT</computerdatabase.version>
+		<jackson.version>2.9.8</jackson.version>
+		<javax.servlet.version>4.0.1</javax.servlet.version>
+		<spring.security.version>5.1.2.RELEASE</spring.security.version>
 	</properties>
 
 	<dependencies>
 		<dependency>
 			<groupId>com.computerDatabase.excilys</groupId>
 			<artifactId>binding</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>com.computerDatabase.excilys</groupId>
-			<artifactId>core</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${computerdatabase.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.computerDatabase.excilys</groupId>
 			<artifactId>service</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${computerdatabase.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-jsr310</artifactId>
+			<version>${jackson.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
-			<version>4.0.1</version>
+			<version>${javax.servlet.version}</version>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+			<version>${spring.security.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+			<version>${spring.security.version}</version>
+		</dependency>
 	</dependencies>
-	
+
 	<build>
 		<plugins>
 			<plugin>
@@ -57,6 +76,6 @@
 				</configuration>
 			</plugin>
 		</plugins>
-</build>
+	</build>
 
 </project>

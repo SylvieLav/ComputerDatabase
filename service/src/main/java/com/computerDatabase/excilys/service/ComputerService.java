@@ -22,12 +22,12 @@ public class ComputerService {
 		return computer;
 	}
 
-	public List<Computer> listBySearch(long number, long pageNumber, String sortElement, String order, String filter) {
-		return computerDAO.listBySearch(number, pageNumber, sortElement, order, filter);
+	public List<Computer> listBySearch(long number, long pageNumber, String sortElement, String orderBy, String search) {
+		return computerDAO.listBySearch(number, pageNumber, sortElement, orderBy, search);
 	}
 
-	public List<Computer> list(long number, long page, String sortElement, String order) {
-		return computerDAO.list(number, page, sortElement, order);
+	public List<Computer> list(long number, long page, String sortElement, String orderBy) {
+		return computerDAO.list(number, page, sortElement, orderBy);
 	}
 
 	public Optional<Computer> listDetails(long id) {

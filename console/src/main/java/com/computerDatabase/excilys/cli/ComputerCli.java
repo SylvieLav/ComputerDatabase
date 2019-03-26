@@ -2,97 +2,95 @@ package com.computerDatabase.excilys.cli;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 import org.slf4j.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.computerDatabase.excilys.model.*;
 import com.computerDatabase.excilys.service.ComputerService;
+import com.computerDatabase.excilys.service.JaxRsService;
 import com.computerDatabase.excilys.validator.*;
 
+@Component
 public class ComputerCli {
-	@Autowired
-	private ComputerService computerService;
-	@Autowired
-	private CompanyValidator companyValidator;
-	@Autowired
-	private ComputerValidator computerValidator;
 
-	public void createCli(String sName, String sIntroduced, String sDiscontinued, String sCompanyId) {
+	private static final Logger LOGGER = LoggerFactory.getLogger(ComputerCli.class);
+
+	@Autowired
+	private static CompanyValidator companyValidator;
+	@Autowired
+	private static ComputerService computerService;
+	@Autowired
+	private static ComputerValidator computerValidator;
+	@Autowired
+	private static JaxRsService entryPoint = new JaxRsService();
+
+	public static void listCli() {
+		LOGGER.info("********************ComputerCli.listCli()********************");
+		LOGGER.info(entryPoint.listJSONComputers().toString());
+	}
+	
+	public static void listDetailsCli(String id) {
+		LOGGER.info("********************ComputerCli.listDetailsCli()********************");
+		LOGGER.info(entryPoint.listJSONDetailsComputer().toString());
+	}
+
+	public static void deleteCli(String id) {
+		LOGGER.info("********************ComputerCli.deleteCli()********************");
+		LOGGER.info(entryPoint.deleteJSONComputer(Long.parseLong(id)).toString());
+	}
+
+	public static void createCli(String sName, String sIntroduced, String sDiscontinued, String sCompanyId) {
+		LOGGER.info("********************ComputerCli.createCli()********************");
 		LocalDateTime introduced = null, discontinued = null;
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S");
-		if (sIntroduced.equals("") == false) {
-			introduced = LocalDateTime.parse(sIntroduced, formatter);
-		}
-		if (sDiscontinued.equals("") == false) {
-			discontinued = LocalDateTime.parse(sDiscontinued, formatter);
-		}
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+		Computer computer = null;
 		Company company = null;
-		if (sCompanyId.equals("") == false && companyValidator.validateAll(sCompanyId) == true) {
-			company = new Company.CompanyBuilder(Long.parseLong(sCompanyId)).build();
-		}
+		
+		if (computerValidator.validateAll(sIntroduced, sDiscontinued)) {
+			if (!"".equals(sIntroduced))
+				introduced = LocalDateTime.parse(sIntroduced, formatter);
+			if (!"".equals(sDiscontinued))
+				discontinued = LocalDateTime.parse(sDiscontinued, formatter);
+			
+			if (!"".equals(sCompanyId) && companyValidator.validateAll(sCompanyId))
+				company = new Company.CompanyBuilder(Long.parseLong(sCompanyId)).build();
 
-		if (computerValidator.validateAll(sIntroduced, sDiscontinued, sCompanyId)) {
-			Computer computer = new Computer.ComputerBuilder(sName).introduced(introduced).discontinued(discontinued).company(company).build();
-			computerService.create(computer);
-		}
-	}
 
-	public void listCli(String sNumber, String sPage) {
-		Logger logger = LoggerFactory.getLogger(ComputerCli.class);
-		long number = Long.parseLong(sNumber);
-		long page = Long.parseLong(sPage);
-		List<Computer> computers = computerService.list(number, page, "computerName", "ASC");
-		for (Computer computer : computers) {
-			logger.info(computer.getName());
+			computer = new Computer.ComputerBuilder(sName).introduced(introduced).discontinued(discontinued).company(company).build();
+			LOGGER.info(entryPoint.createJSONComputer(computer).toString());
 		}
 	}
 
-	public void listDetailsCli(String id) {
-		Logger logger = LoggerFactory.getLogger(ComputerCli.class);
-		try {
-			Computer computer = computerService.listDetails(Long.parseLong(id)).get();
-			logger.info(id + "\n" + computer.getName() + "\n" + computer.getIntroduced() + "\n" + computer.getDiscontinued() + "\n" + computer.getCompany().getName());
-
-		} catch (NumberFormatException e) {
-			logger.error("The id you gave is not a valid number");
-		}
-	}
-
-	public void updateCli(String id, String newName, String sIntroduced, String sDiscontinued, String sCompanyId) {
-		Logger logger = LoggerFactory.getLogger(ComputerCli.class);
+	public static void updateCli(String id, String newName, String sIntroduced, String sDiscontinued, String sCompanyId) {
+		LOGGER.info("********************ComputerCli.updateCli()********************");
 		LocalDateTime introduced = null, discontinued = null;
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 		Computer computerToUpdate = computerService.listDetails(Long.parseLong(id)).get();
+		Computer computer = null;
 		Company company = null;
+		
+				if (!(sIntroduced.contains("NULL") || sDiscontinued.contains("NULL")) && computerValidator.validateAll(sIntroduced, sDiscontinued)) {
+			if ("".equals(sIntroduced))
+				introduced = computerToUpdate.getIntroduced();
+			else
+				introduced = LocalDateTime.parse(sIntroduced, formatter);
 
-		if (sIntroduced.equals("")) {
-			introduced = computerToUpdate.getIntroduced();
-		} else if (sIntroduced.equals("NULL") == false) {
-			introduced = LocalDateTime.parse(sIntroduced, dtf);
-		}
-		if (sDiscontinued.equals("")) {
-			discontinued = computerToUpdate.getDiscontinued();
-		} else if (sDiscontinued.equals("NULL") == false) {
-			discontinued = LocalDateTime.parse(sDiscontinued, dtf);
-		}
-		if (sCompanyId.equals("")) {
-			company = computerToUpdate.getCompany();
-		} else if (sCompanyId.equals("NULL") == false) {
-			company = new Company.CompanyBuilder(Long.parseLong(sCompanyId)).build();
-		}
+			if ("".equals(sDiscontinued))
+				discontinued = computerToUpdate.getDiscontinued();
+			else
+				discontinued = LocalDateTime.parse(sDiscontinued, formatter);
 
-		if (introduced != null && discontinued != null && introduced.compareTo(discontinued)>=0) {
-			logger.error("Error : discontinued<introduced");
-		} else {
-			Computer computer = new Computer.ComputerBuilder(newName).introduced(introduced).discontinued(discontinued).company(company).build();
-			computerService.update(computer);
+			if (!sCompanyId.contains("NULL") && companyValidator.validateAll(sCompanyId)) {
+				if ("".equals(sCompanyId))
+					company = computerToUpdate.getCompany();
+				else
+					company = new Company.CompanyBuilder(Long.parseLong(sCompanyId)).build();
+			}
+			
+			computer = new Computer.ComputerBuilder(newName).introduced(introduced).discontinued(discontinued).company(company).build();
+			LOGGER.info(entryPoint.updateJSONComputer(computer).toString());
 		}
 	}
-
-	public void deleteCli(String id) {
-		computerService.delete(Long.parseLong(id));
-	}
-
 }
